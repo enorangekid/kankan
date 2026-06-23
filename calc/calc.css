@@ -679,14 +679,20 @@ select.field-input {
 
 /* 전체 너비 레이아웃 — 사이드바 컬럼 제거 */
 .layout { grid-template-columns: 1fr; }
-.main-content { grid-column: 1; overflow-x: visible; } /* sticky 동작을 위해 overflow-x 해제 */
-.topbar { left: 0; right: 0; }
+.main-content {
+  grid-column: 1;
+  overflow-x: visible;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
 
-/* ─── 탑바: 다크 배경 ─── */
+/* ─── 탑바: 다크 배경 + 좌우폭 제한 ─── */
 .topbar {
   left: 0; right: 0;
   background: #05070b;
   border-bottom: 1px solid rgba(232,93,47,0.3);
+  padding: 0 max(20px, calc((100vw - 1400px) / 2 + 48px));
 }
 
 /* 햄버거 · 점세개 항상 표시 */
