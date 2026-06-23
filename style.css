@@ -978,6 +978,31 @@ body.home .topbar-logo-mobile {
   white-space: nowrap;
 }
 
+/* ── 카테고리바 우측 액션 아이콘 ── */
+.cat-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.cat-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.cat-action-btn:hover {
+  color: #ffffff;
+  background: rgba(255,255,255,0.08);
+}
+
 /* 카테고리바 내 검색창 */
 body.home .tab-search {
   border-color: rgba(255,255,255,0.25);
