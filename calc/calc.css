@@ -715,7 +715,15 @@ select.field-input {
   color: rgba(255,255,255,0.6);
   border-bottom-color: transparent;
 }
-.cat-tab:hover { color: rgba(255,255,255,0.9); }
+.cat-tab:hover {
+  color: rgba(255,255,255,0.9);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #e85d2f;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: none;
+}
 .cat-tabs-list { overflow: visible; }
 
 /* ─── 사이드바: 숨김 ─── */

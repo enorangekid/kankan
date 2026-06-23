@@ -960,7 +960,15 @@ body.home .cat-tab {
   color: rgba(255,255,255,0.6);
   border-bottom-color: transparent;
 }
-body.home .cat-tab:hover { color: rgba(255,255,255,0.9); }
+body.home .cat-tab:hover {
+  color: rgba(255,255,255,0.9);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #e85d2f;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: none;
+}
 body.home .cat-tab.active {
   color: #ffffff;
   border-bottom-color: #e85d2f;
@@ -1275,7 +1283,15 @@ body.home .cat-tabs-list { overflow: visible; }
   font-family: var(--font-main);
   white-space: nowrap;
 }
-.cat-tab:hover { color: var(--color-text); }
+.cat-tab:hover {
+  color: var(--color-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #e85d2f;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: none;
+}
 .cat-tab.active {
   color: #05070b;
   border-bottom-color: #e85d2f;
