@@ -1065,7 +1065,7 @@ body.home .cat-tabs-list { overflow: visible; }
 .cat-dropdown {
   position: absolute;
   top: 100%;
-  left: 50%;
+  left: 0;
   background: #0a3560;
   border: none;
   border-radius: 0 0 12px 12px;
@@ -1076,25 +1076,24 @@ body.home .cat-tabs-list { overflow: visible; }
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateX(-50%) translateY(-6px);
+  transform: translateY(-6px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
 }
 .cat-tab-wrap:hover .cat-dropdown {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 .cat-drop-item {
   display: block;
   padding: 9px 20px;
-  font-size: 13px;
+  font-size: 14px;
   color: rgba(255,255,255,0.72);
   white-space: nowrap;
-  transition: background 0.15s, color 0.15s;
+  transition: color 0.15s;
 }
 .cat-drop-item:hover {
-  background: rgba(255,255,255,0.1);
   color: #ffffff;
 }
 .cat-drop-item.soon {
