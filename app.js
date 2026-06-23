@@ -27,8 +27,60 @@ const CALCULATORS = NAV_ITEMS.flatMap(section =>
   )
 );
 
-// ── 현재 카테고리 필터 상태 ──
-let currentCategory = '';
+// ── 카테고리 드롭다운 생성 ──
+function makeDropItem(name, url) {
+  const a = document.createElement('a');
+  a.className = 'cat-drop-item' + (url ? '' : ' soon');
+  a.href = url || `coming-soon.html?name=${encodeURIComponent(name)}`;
+  a.textContent = name;
+  if (!url) {
+    const badge = document.createElement('span');
+    badge.className = 'sub-badge';
+    badge.textContent = '준비중';
+    a.appendChild(badge);
+  }
+  return a;
+}
+
+function buildCategoryDropdowns() {
+  const list = document.querySelector('.cat-tabs-list');
+  if (!list) return;
+
+  list.querySelectorAll('.cat-tab').forEach(tab => {
+    const cat = tab.dataset.cat;
+    if (!cat) return;
+    const section = NAV_ITEMS.find(s => s.category === cat);
+    if (!section) return;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'cat-tab-wrap';
+    list.insertBefore(wrap, tab);
+    wrap.appendChild(tab);
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'cat-dropdown';
+
+    let first = true;
+    for (const item of section.items) {
+      if (item.children) {
+        const header = document.createElement('div');
+        header.className = 'cat-drop-group' + (first ? ' first' : '');
+        header.textContent = item.name;
+        dropdown.appendChild(header);
+        first = false;
+        item.children.forEach(child => dropdown.appendChild(makeDropItem(child.name, child.url)));
+      } else {
+        if (!first) {
+          // no extra separator needed
+        }
+        dropdown.appendChild(makeDropItem(item.name, item.url));
+        first = false;
+      }
+    }
+
+    wrap.appendChild(dropdown);
+  });
+}
 
 // ── 계산기 그리드 렌더링 ──
 function renderCalcGrid(searchFilter = '', categoryFilter = '') {
@@ -123,22 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 카테고리 탭 필터
-  document.querySelectorAll('.cat-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      currentCategory = tab.dataset.cat || '';
-      const searchVal = document.getElementById('heroSearch');
-      renderCalcGrid(searchVal ? searchVal.value.trim() : '', currentCategory);
-    });
-  });
+  // 카테고리 드롭다운 초기화
+  buildCategoryDropdowns();
 
-  // 검색 (홈 탭바 or 히어로)
+  // 검색
   const heroSearch = document.getElementById('heroSearch');
   if (heroSearch) {
     heroSearch.addEventListener('input', e => {
-      renderCalcGrid(e.target.value.trim(), currentCategory);
+      renderCalcGrid(e.target.value.trim(), '');
     });
   }
 
