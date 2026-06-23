@@ -65,6 +65,131 @@ const NAV_ITEMS = [
   },
 ];
 
+// ── 최근 본 계산기 추적 ──
+const RECENT_KEY = 'kankan_recent';
+
+function trackRecentCalc(name, url) {
+  if (!url) return;
+  try {
+    let list = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+    list = list.filter(c => c.url !== url);
+    list.unshift({ name, url });
+    if (list.length > 6) list = list.slice(0, 6);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(list));
+  } catch(e) {}
+}
+
+function getRecentCalcs() {
+  try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+
+// ── 인기 계산기 ──
+const POPULAR_CALCS = [
+  { name: '석고보드 수량 계산기',                    url: 'calc/gypsum.html' },
+  { name: '판상형 단열재 수량 계산기',               url: 'calc/insulation-board.html' },
+  { name: '단열벽지 소요량 계산기',                  url: 'calc/thermal-wallpaper.html' },
+  { name: '우레탄폼 이액형[대용량] 소요량 계산기',   url: 'calc/foam-2k.html' },
+  { name: '장판 소요량 계산기',                      url: 'calc/flooring.html' },
+  { name: '천장재[텍스] 수량 계산기',                url: 'calc/tex.html' },
+];
+
+function shortName(name) {
+  return name.replace(/\s*(수량|소요량|견적)?\s*계산기$/, '').replace(/\s*확인$/, '').trim();
+}
+
+// ── 검색 팝업 ──
+function renderSearchModal() {
+  if (document.getElementById('searchOverlay')) return;
+
+  const sidebarEl = document.getElementById('sidebar');
+  const root = (sidebarEl && sidebarEl.dataset.root) || '';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'search-overlay';
+  overlay.id = 'searchOverlay';
+  overlay.innerHTML = `
+    <div class="search-modal" id="searchModal">
+      <div class="search-input-row">
+        <svg class="search-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="searchModalInput" class="search-modal-input" placeholder="어떤 계산기가 필요하신가요?" autocomplete="off" />
+        <button class="search-close-btn" id="btnSearchClose">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="search-modal-body" id="searchModalBody"></div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const input   = document.getElementById('searchModalInput');
+  const body    = document.getElementById('searchModalBody');
+
+  function openModal() {
+    overlay.classList.add('active');
+    input.value = '';
+    renderDefault();
+    setTimeout(() => input.focus(), 60);
+  }
+  function closeModal() { overlay.classList.remove('active'); }
+
+  function renderDefault() {
+    const recent = getRecentCalcs();
+    let html = '';
+    if (recent.length > 0) {
+      html += `<div class="search-section">
+        <div class="search-section-title">최근 본 계산기</div>
+        <div class="search-chips">
+          ${recent.map(c => `<a class="search-chip" href="${root}${c.url}">${shortName(c.name)}</a>`).join('')}
+        </div>
+      </div>`;
+    }
+    html += `<div class="search-section">
+      <div class="search-section-title">인기 계산기</div>
+      <div class="search-chips">
+        ${POPULAR_CALCS.map(c => `<a class="search-chip search-chip--hot" href="${root}${c.url}">${shortName(c.name)}</a>`).join('')}
+      </div>
+    </div>`;
+    body.innerHTML = html;
+  }
+
+  function renderResults(query) {
+    const q = query.trim();
+    if (!q) { renderDefault(); return; }
+    const results = NAV_ITEMS.flatMap(section =>
+      section.items
+        .filter(item => item.name.includes(q) || section.category.includes(q))
+        .map(item => ({ name: item.name, url: item.url, category: section.category }))
+    );
+    if (!results.length) {
+      body.innerHTML = `<div class="search-empty">검색 결과가 없습니다.</div>`;
+      return;
+    }
+    body.innerHTML = `<div class="search-results">${
+      results.map(item => `
+        <a class="search-result-item${!item.url ? ' soon' : ''}" href="${item.url ? root + item.url : '#'}">
+          <span class="search-result-cat">${item.category}</span>
+          <span class="search-result-name">${item.name}</span>
+          ${!item.url ? '<span class="sub-badge">준비중</span>' : ''}
+        </a>`).join('')
+    }</div>`;
+  }
+
+  input.addEventListener('input', e => renderResults(e.target.value));
+  document.getElementById('btnSearchClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // 검색 아이콘 클릭 — DOM에 언제 추가되든 이벤트 위임
+  document.addEventListener('click', e => {
+    if (e.target.closest('#btnCatSearch')) openModal();
+  });
+}
+
 // ── 카테고리 드롭다운 아이템 생성 (홈·계산기 페이지 공유) ──
 function makeDropItem(name, url, root) {
   const shortName = name
@@ -167,6 +292,17 @@ function renderCalcNavBar() {
 
   layout.insertBefore(nav, layout.firstChild);
   buildCategoryDropdowns(nav, root);
+
+  // 현재 페이지를 최근 본 계산기에 저장
+  const currentPath = location.pathname.replace(/^\//, '');
+  for (const section of NAV_ITEMS) {
+    for (const item of section.items) {
+      if (item.url && isCurrentPath(currentPath, item.url)) {
+        trackRecentCalc(item.name, item.url);
+        break;
+      }
+    }
+  }
 
   // calc 페이지: 주입 후 히스토리 버튼 이벤트 연결
   const overlay      = document.getElementById('mobileOverlay');
@@ -375,10 +511,11 @@ function initMobileDrawers() {
 
 // ── 초기화 ──
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => { renderSidebar(); renderNotice(); initMobileDrawers(); renderCalcNavBar(); });
+  document.addEventListener('DOMContentLoaded', () => { renderSidebar(); renderNotice(); renderCalcNavBar(); initMobileDrawers(); renderSearchModal(); });
 } else {
   renderSidebar();
   renderNotice();
-  initMobileDrawers();
   renderCalcNavBar();
+  initMobileDrawers();
+  renderSearchModal();
 }

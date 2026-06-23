@@ -79,6 +79,7 @@ function openCalc(id) {
   const calc = CALCULATORS.find(c => c.id === id);
   if (!calc) return;
   if (calc.url) {
+    trackRecentCalc(calc.name, calc.url);
     window.location.href = calc.url;
   } else {
     window.location.href = `coming-soon.html?name=${encodeURIComponent(calc.name)}`;
@@ -123,14 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 카테고리 드롭다운 초기화 (sidebar.js의 공유 함수 사용, 홈 루트는 '')
   buildCategoryDropdowns(document.querySelector('.cat-tabs-list'), '');
-
-  // 검색
-  const heroSearch = document.getElementById('heroSearch');
-  if (heroSearch) {
-    heroSearch.addEventListener('input', e => {
-      renderCalcGrid(e.target.value.trim(), '');
-    });
-  }
 
   // 계산기 그리드 클릭 이벤트 위임
   const calcGrid = document.getElementById('calcGrid');
