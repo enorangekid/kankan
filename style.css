@@ -87,7 +87,7 @@ input { font-family: inherit; }
   white-space: pre;
   display: inline-block;
   font-weight: 700;
-  animation: topbar-ticker 85s linear infinite;
+  animation: topbar-ticker 65s linear infinite;
 }
 
 @keyframes topbar-ticker {
@@ -921,34 +921,37 @@ body.home .layout {
   padding-top: 36px; /* 공지바 높이 */
 }
 
-/* ── 공지 네비바: 네이비, 낮은 높이, 폭 제한 ── */
+/* ── 공지 네비바: 전체 너비, 내부 콘텐츠는 1400px 영역 유지 ── */
 body.home .topbar {
-  left: 50%; right: auto;
-  transform: translateX(-50%);
+  left: 0; right: 0;
+  transform: none;
   width: 100%;
-  max-width: 1400px;
+  max-width: none;
   height: 36px;
   background: #0a3560;
   border-bottom: none;
-  padding: 0 48px;
+  padding: 0;
 }
 body.home .topbar-update {
   flex: 1;
   color: #e85d2f;
   font-size: 12px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px;
 }
 
 /* ── 햄버거·점메뉴 비활성화 ── */
 body.home .btn-hamburger,
 body.home .btn-dotmenu { display: none; }
 
-/* ── 카테고리바: 동일 네이비, 오렌지 구분선, 폭 제한 ── */
+/* ── 카테고리바: 전체 너비, 내부 콘텐츠는 1400px 영역 유지 ── */
 body.home .category-tabs {
   top: 36px;
-  max-width: 1400px;
+  max-width: none;
   width: 100%;
-  margin: 0 auto;
-  padding: 0 48px;
+  margin: 0;
+  padding: 0 max(48px, calc((100vw - 1400px) / 2 + 48px));
   background: #0a3560;
   border-top: 1px solid rgba(232,93,47,0.35);
   border-bottom: none;
