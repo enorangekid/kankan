@@ -366,7 +366,7 @@ select.field-input {
   white-space: nowrap;
 }
 
-.btn-deduct-add:hover { background: #1a6bb5; }
+.btn-deduct-add:hover { background: #2a2a2a; }
 
 .btn-deduct-remove {
   display: inline-flex;
@@ -682,10 +682,17 @@ select.field-input {
 .main-content { grid-column: 1; overflow-x: visible; } /* sticky 동작을 위해 overflow-x 해제 */
 .topbar { left: 0; right: 0; }
 
-/* 햄버거 · 점세개 항상 표시 */
-.btn-hamburger, .btn-dotmenu { display: flex; }
+/* ─── 탑바: 다크 배경 ─── */
+.topbar {
+  left: 0; right: 0;
+  background: #05070b;
+  border-bottom: 1px solid rgba(232,93,47,0.3);
+}
 
-/* 로고 항상 표시, 탑바 순서 교정 (calc HTML: hamburger→update→logo→right) */
+/* 햄버거 · 점세개 항상 표시 */
+.btn-hamburger, .btn-dotmenu { display: flex; color: rgba(255,255,255,0.7); }
+
+/* 로고 항상 표시, 탑바 순서 교정 */
 .btn-hamburger       { order: 1; }
 .topbar-logo-mobile  {
   order: 2;
@@ -695,11 +702,11 @@ select.field-input {
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.2em;
-  color: #05070b;
+  color: #ffffff;
   margin-right: 0;
 }
-.topbar-update { order: 3; flex: 1; }
-.topbar-right  { order: 4; }
+.topbar-update { order: 3; flex: 1; color: #e85d2f; }
+.topbar-right  { order: 4; color: rgba(255,255,255,0.7); }
 
 /* 사이드바 — 항상 드로어 */
 .sidebar {
@@ -709,7 +716,7 @@ select.field-input {
 }
 .sidebar.mobile-open {
   transform: translateX(0);
-  box-shadow: 4px 0 28px rgba(10,53,96,0.45);
+  box-shadow: 4px 0 28px rgba(0,0,0,0.4);
 }
 
 /* 히스토리 패널 — 항상 드로어 */
@@ -1533,7 +1540,7 @@ select.field-input {
 }
 .uval-table thead th:last-child { border-right: none; }
 .uval-table th.th-region {
-  background: #1a6bb5;
+  background: #2c2c2c;
   text-align: center;
   font-size: 12px;
   letter-spacing: 0.06em;
