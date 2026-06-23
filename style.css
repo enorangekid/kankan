@@ -923,9 +923,22 @@ body.home .topbar { left: 0; right: 0; }
 /* 탑바: 티커 전체 너비 */
 body.home .topbar-update { flex: 1; }
 
-/* 카테고리바: 햄버거·로고·탭·검색·점메뉴 */
+/* 햄버거·점메뉴 비활성화 */
 body.home .btn-hamburger,
-body.home .btn-dotmenu { display: flex; }
+body.home .btn-dotmenu { display: none; }
+
+/* 카테고리바 + 메인콘텐츠: calc 페이지와 동일한 폭 제한 */
+body.home .category-tabs {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+body.home .main-content {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
 
 body.home .topbar-logo-mobile {
   display: block;
