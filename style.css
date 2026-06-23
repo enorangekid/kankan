@@ -1069,7 +1069,7 @@ body.home .cat-tabs-list { overflow: visible; }
   background: #05070b;
   border: none;
   border-radius: 0 0 12px 12px;
-  box-shadow: 0 16px 40px rgba(5,25,55,0.45);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
   min-width: 220px;
   z-index: 700;
   padding: 8px 0 10px;
