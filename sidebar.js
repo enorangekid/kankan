@@ -65,6 +65,94 @@ const NAV_ITEMS = [
   },
 ];
 
+// ── 카테고리 드롭다운 아이템 생성 (홈·계산기 페이지 공유) ──
+function makeDropItem(name, url, root) {
+  const shortName = name
+    .replace(/\s*(수량|소요량|견적)?\s*계산기$/, '')
+    .replace(/\s*확인$/, '')
+    .trim();
+  const a = document.createElement('a');
+  a.className = 'cat-drop-item' + (url ? '' : ' soon');
+  a.href = url ? root + url : root + 'coming-soon.html?name=' + encodeURIComponent(name);
+  a.textContent = shortName;
+  if (!url) {
+    const badge = document.createElement('span');
+    badge.className = 'sub-badge';
+    badge.textContent = '준비중';
+    a.appendChild(badge);
+  }
+  return a;
+}
+
+// ── 카테고리 드롭다운 빌드 (홈·계산기 페이지 공유) ──
+function buildCategoryDropdowns(container, root) {
+  if (!container) return;
+  container.querySelectorAll('.cat-tab').forEach(tab => {
+    const cat = tab.dataset.cat;
+    if (!cat) return;
+    const section = NAV_ITEMS.find(s => s.category === cat);
+    if (!section) return;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'cat-tab-wrap';
+    tab.parentNode.insertBefore(wrap, tab);
+    wrap.appendChild(tab);
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'cat-dropdown';
+
+    let first = true;
+    for (const item of section.items) {
+      if (item.children) {
+        const header = document.createElement('div');
+        header.className = 'cat-drop-group' + (first ? ' first' : '');
+        header.textContent = item.name;
+        dropdown.appendChild(header);
+        first = false;
+        item.children.forEach(child => dropdown.appendChild(makeDropItem(child.name, child.url, root)));
+      } else {
+        dropdown.appendChild(makeDropItem(item.name, item.url, root));
+        first = false;
+      }
+    }
+    wrap.appendChild(dropdown);
+  });
+}
+
+// ── 계산기 페이지 카테고리 네비바 주입 ──
+function renderCalcNavBar() {
+  if (document.body.classList.contains('home')) return;
+  const layout = document.querySelector('.layout');
+  if (!layout || document.getElementById('categoryTabs')) return;
+
+  const sidebarEl = document.getElementById('sidebar');
+  const root = (sidebarEl && sidebarEl.dataset.root) || '../';
+
+  const nav = document.createElement('nav');
+  nav.className = 'category-tabs';
+  nav.id = 'categoryTabs';
+
+  const logo = document.createElement('a');
+  logo.href = root + 'index.html';
+  logo.className = 'topbar-logo-mobile';
+  logo.textContent = 'KAN KAN';
+  nav.appendChild(logo);
+
+  const tabsList = document.createElement('div');
+  tabsList.className = 'cat-tabs-list';
+  NAV_ITEMS.forEach(section => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-tab';
+    btn.dataset.cat = section.category;
+    btn.textContent = section.category;
+    tabsList.appendChild(btn);
+  });
+  nav.appendChild(tabsList);
+
+  layout.insertBefore(nav, layout.firstChild);
+  buildCategoryDropdowns(nav, root);
+}
+
 // ── 헬퍼 ──
 function isCurrentPath(currentPath, url) {
   return url && currentPath && (
@@ -266,9 +354,10 @@ function initMobileDrawers() {
 
 // ── 초기화 ──
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => { renderSidebar(); renderNotice(); initMobileDrawers(); });
+  document.addEventListener('DOMContentLoaded', () => { renderSidebar(); renderNotice(); initMobileDrawers(); renderCalcNavBar(); });
 } else {
   renderSidebar();
   renderNotice();
   initMobileDrawers();
+  renderCalcNavBar();
 }

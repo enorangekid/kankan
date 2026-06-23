@@ -687,55 +687,53 @@ select.field-input {
   margin: 0 auto;
 }
 
-/* ─── 탑바: 다크 배경 + 좌우폭 제한 ─── */
+/* ─── 탑바: 홈과 동일 — 티커만 ─── */
 .topbar {
   left: 0; right: 0;
   background: #05070b;
-  border-bottom: 1px solid rgba(232,93,47,0.3);
-  padding: 0 max(20px, calc((100vw - 1400px) / 2 + 48px));
+  border-bottom: none;
+  padding: 0;
+}
+.topbar .btn-hamburger,
+.topbar .topbar-logo-mobile,
+.topbar .topbar-right { display: none !important; }
+.topbar .topbar-update {
+  flex: 1;
+  color: #e85d2f;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px;
 }
 
-/* 햄버거 · 점세개 항상 표시 */
-.btn-hamburger, .btn-dotmenu { display: flex; color: rgba(255,255,255,0.7); }
-
-/* 로고 항상 표시, 탑바 순서 교정 */
-.btn-hamburger       { order: 1; }
-.topbar-logo-mobile  {
-  order: 2;
+/* ─── 주입된 카테고리바: 홈과 동일 ─── */
+.category-tabs {
+  background: #05070b;
+  border-top: 1px solid rgba(232,93,47,0.35);
+  border-bottom: none;
+  max-width: none;
+  width: 100%;
+  padding: 0 max(48px, calc((100vw - 1400px) / 2 + 48px));
+}
+.category-tabs .topbar-logo-mobile {
   display: block;
   flex: 0 0 auto;
-  text-align: left;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.2em;
   color: #ffffff;
-  margin-right: 0;
+  margin: 0 12px 0 0;
+  white-space: nowrap;
 }
-.topbar-update { order: 3; flex: 1; color: #e85d2f; }
-.topbar-right  { order: 4; color: rgba(255,255,255,0.7); }
+.cat-tab {
+  height: 60px;
+  color: rgba(255,255,255,0.6);
+  border-bottom-color: transparent;
+}
+.cat-tab:hover { color: rgba(255,255,255,0.9); }
+.cat-tabs-list { overflow: visible; }
 
-/* 사이드바 — 항상 드로어 */
-.sidebar {
-  width: 280px;
-  transform: translateX(-100%);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.sidebar.mobile-open {
-  transform: translateX(0);
-  box-shadow: 4px 0 28px rgba(0,0,0,0.4);
-}
-
-/* 히스토리 패널 — 항상 드로어 */
-.history-panel {
-  width: 300px;
-  display: flex;
-  transform: translateX(100%);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.history-panel.mobile-open {
-  transform: translateX(0);
-  box-shadow: -4px 0 24px rgba(0,0,0,0.14);
-}
+/* ─── 사이드바 / 히스토리: 완전 숨김 ─── */
+.sidebar, .history-panel { display: none !important; }
 
 /* ─── 반응형 ─── */
 
