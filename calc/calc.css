@@ -669,6 +669,7 @@ select.field-input {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
+  background: transparent;
 }
 
 /* ─── 탑바: 홈과 동일 — 티커만 ─── */
