@@ -87,12 +87,12 @@
   background: transparent;
   padding: 0;
   display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 0 32px;
+  grid-template-columns: 400px 1fr;
+  gap: 0 36px;
   align-items: start;
 }
 
-/* 입력 폼 — 좌측 sticky */
+/* 입력 폼 — 좌측, sticky */
 .calc-main-wrap .calc-card-main {
   grid-column: 1;
   background: var(--color-surface);
@@ -102,15 +102,13 @@
   top: calc(var(--topbar-height) + 20px);
 }
 
-/* 결과 패널 — 우측 상단, 항상 표시 (inline style="display:none" 무력화) */
+/* 결과 패널 — 우측 상단 (JS가 display 제어, 그리드 위치만 지정) */
 .calc-main-wrap .result-panel {
   grid-column: 2;
   background: transparent;
-  display: flex !important;
-  flex-direction: column;
 }
 
-/* 팁·관련 계산기 — 우측 하단 */
+/* 팁·관련 계산기 — 우측 (결과 없을 땐 상단, 결과 있으면 하단) */
 .calc-main-wrap .tip-related-wrap {
   grid-column: 2;
 }
@@ -689,7 +687,7 @@ select.field-input {
 
 /* 전체 너비 레이아웃 — 사이드바 컬럼 제거 */
 .layout { grid-template-columns: 1fr; }
-.main-content { grid-column: 1; }
+.main-content { grid-column: 1; overflow-x: visible; } /* sticky 동작을 위해 overflow-x 해제 */
 .topbar { left: 0; right: 0; }
 
 /* 햄버거 · 점세개 항상 표시 */
