@@ -103,16 +103,23 @@
   top: calc(var(--topbar-height) + 20px);
 }
 
-/* 결과 패널 — 우측 상단 (JS가 display 제어) */
-.calc-main-wrap .result-panel {
+/* 우측 컬럼 wrapper — 결과+팁을 flex 컬럼으로 묶어 빈 공간 제거 */
+.calc-right-col {
   grid-column: 2;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 결과 패널 (JS가 display 제어, grid-column은 부모 wrapper가 담당) */
+.calc-main-wrap .result-panel {
   min-width: 0;
   background: transparent;
 }
 
-/* 팁·관련 계산기 — 우측 */
+/* 팁·관련 계산기 */
 .calc-main-wrap .tip-related-wrap {
-  grid-column: 2;
   min-width: 0;
 }
 
@@ -753,8 +760,7 @@ select.field-input {
     grid-column: 1;
     position: static;
   }
-  .calc-main-wrap .result-panel,
-  .calc-main-wrap .tip-related-wrap {
+  .calc-right-col {
     grid-column: 1;
   }
 }
