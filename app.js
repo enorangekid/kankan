@@ -29,10 +29,15 @@ const CALCULATORS = NAV_ITEMS.flatMap(section =>
 
 // ── 카테고리 드롭다운 생성 ──
 function makeDropItem(name, url) {
+  const shortName = name
+    .replace(/\s*(수량|소요량|견적)?\s*계산기$/, '')
+    .replace(/\s*확인$/, '')
+    .trim();
+
   const a = document.createElement('a');
   a.className = 'cat-drop-item' + (url ? '' : ' soon');
   a.href = url || `coming-soon.html?name=${encodeURIComponent(name)}`;
-  a.textContent = name;
+  a.textContent = shortName;
   if (!url) {
     const badge = document.createElement('span');
     badge.className = 'sub-badge';
