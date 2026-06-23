@@ -17,7 +17,7 @@
   padding: 28px 48px 28px;
   width: 100%;
   gap: 8px;
-  background: linear-gradient(135deg, #0a3560 0%, #0f4c81 100%);
+  background: #05070b;
   position: relative;
   overflow: hidden;
 }
@@ -163,7 +163,7 @@
 }
 
 .field-input-wrap:focus-within {
-  border-color: #0f4c81;
+  border-color: #05070b;
 }
 
 .field-input {
@@ -353,7 +353,7 @@ select.field-input {
 .btn-deduct-add {
   display: inline-flex;
   align-items: center;
-  background: #0f4c81;
+  background: #05070b;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -472,7 +472,7 @@ select.field-input {
 
 /* 왼쪽: 네이비 메인 카드 */
 .result-main-card {
-  background: #0f4c81;
+  background: #05070b;
   padding: 40px 36px;
   display: flex;
   flex-direction: column;
@@ -658,8 +658,8 @@ select.field-input {
 }
 
 .related-tag:hover {
-  background: #0f4c81;
-  border-color: #0f4c81;
+  background: #05070b;
+  border-color: #05070b;
   color: #fff;
 }
 
@@ -695,7 +695,7 @@ select.field-input {
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.2em;
-  color: #0f4c81;
+  color: #05070b;
   margin-right: 0;
 }
 .topbar-update { order: 3; flex: 1; }
@@ -857,7 +857,7 @@ select.field-input {
 .seo-formula {
   background: #f1f5fb;
   border: 1px solid var(--color-border);
-  border-left: 3px solid #0f4c81;
+  border-left: 3px solid #05070b;
   border-radius: var(--radius);
   padding: 16px 20px;
   display: flex;
@@ -1043,7 +1043,7 @@ select.field-input {
 .custom-select-btn:focus,
 .custom-select-wrap.open .custom-select-btn {
   outline: none;
-  border-color: #0f4c81;
+  border-color: #05070b;
 }
 
 .custom-select-arrow {
@@ -1063,7 +1063,7 @@ select.field-input {
   left: 0;
   right: 0;
   background: var(--color-surface);
-  border: 1px solid #0f4c81;
+  border: 1px solid #05070b;
   border-radius: var(--radius);
   list-style: none;
   margin: 0;
@@ -1089,7 +1089,7 @@ select.field-input {
 }
 
 .custom-select-item.active {
-  background: #0f4c81;
+  background: #05070b;
   color: #fff;
 }
 
@@ -1157,8 +1157,8 @@ select.field-input {
 }
 
 .btn-preset.active {
-  background: #0f4c81;
-  border-color: #0f4c81;
+  background: #05070b;
+  border-color: #05070b;
   color: #fff;
 }
 
@@ -1301,7 +1301,7 @@ select.field-input {
   outline: none;
   transition: border-color var(--transition);
 }
-.tc-search:focus { border-color: #0f4c81; }
+.tc-search:focus { border-color: #05070b; }
 
 .tc-filter-tabs {
   display: flex;
@@ -1322,7 +1322,7 @@ select.field-input {
   white-space: nowrap;
 }
 .tc-tab:hover { background: var(--color-bg); border-color: #bbb; color: var(--color-text); }
-.tc-tab.active { background: #0f4c81; border-color: #0f4c81; color: #fff; }
+.tc-tab.active { background: #05070b; border-color: #05070b; color: #fff; }
 
 .tc-table-wrap {
   overflow-x: auto;
@@ -1335,7 +1335,7 @@ select.field-input {
   font-size: 14px;
 }
 .tc-table thead th {
-  background: #0f4c81;
+  background: #05070b;
   color: rgba(255,255,255,0.85);
   padding: 12px 16px;
   text-align: left;
@@ -1350,7 +1350,7 @@ select.field-input {
 }
 .tc-table thead th:last-child { border-right: none; }
 .tc-table thead th.col-lambda {
-  background: #0f4c81;
+  background: #05070b;
   color: rgba(255,255,255,0.85);
 }
 
@@ -1366,7 +1366,7 @@ select.field-input {
 }
 .tc-table tr.group-row td span {
   display: inline-block;
-  background: #0f4c81;
+  background: #05070b;
   color: #fff;
   padding: 2px 8px;
   border-radius: 3px;
@@ -1521,7 +1521,7 @@ select.field-input {
   min-width: 760px;
 }
 .uval-table thead th {
-  background: #0f4c81;
+  background: #05070b;
   color: rgba(255,255,255,0.85);
   padding: 12px 16px;
   font-size: 12px;
