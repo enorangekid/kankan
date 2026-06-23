@@ -86,12 +86,13 @@ input { font-family: inherit; }
 #topbarNotice {
   white-space: pre;
   display: inline-block;
+  font-weight: 700;
   animation: topbar-ticker 85s linear infinite;
 }
 
 @keyframes topbar-ticker {
-  from { transform: translateX(100vw); }
-  to   { transform: translateX(-100%); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 .topbar-right {
@@ -949,7 +950,7 @@ body.home .category-tabs {
   margin: 0 auto;
   padding: 0 48px;
   background: #0a3560;
-  border-top: 1px solid #e85d2f;
+  border-top: 1px solid rgba(232,93,47,0.35);
   border-bottom: none;
 }
 body.home .cat-tab {
