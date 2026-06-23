@@ -913,42 +913,84 @@ input { font-family: inherit; }
    (body.home 스코프 — 계산기 페이지 영향 없음)
    ═══════════════════════════════════════════ */
 
-/* 레이아웃: 사이드바 컬럼 제거, 전체 너비 */
+/* ── 레이아웃 ── */
 body.home .layout {
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
+  padding-top: 36px; /* 공지바 높이 */
 }
-body.home .topbar { left: 0; right: 0; }
 
-/* 탑바: 티커 전체 너비 */
-body.home .topbar-update { flex: 1; }
+/* ── 공지 네비바: 네이비, 낮은 높이, 폭 제한 ── */
+body.home .topbar {
+  left: 0; right: 0;
+  height: 36px;
+  background: #0f4c81;
+  border-bottom: none;
+  padding: 0;
+}
+body.home .topbar-update {
+  flex: 1;
+  color: rgba(255,255,255,0.75);
+  font-size: 12px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
 
-/* 햄버거·점메뉴 비활성화 */
+/* ── 햄버거·점메뉴 비활성화 ── */
 body.home .btn-hamburger,
 body.home .btn-dotmenu { display: none; }
 
-/* 카테고리바 + 메인콘텐츠: calc 페이지와 동일한 폭 제한 */
+/* ── 카테고리바: 네이비, 높은 높이, 폭 제한 ── */
 body.home .category-tabs {
+  top: 36px; /* 공지바 높이와 맞춤 */
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   padding: 0 48px;
+  background: #0a3560;
+  border-bottom: none;
 }
-body.home .main-content {
-  max-width: 1400px;
-  width: 100%;
-  margin: 0 auto;
+body.home .cat-tab {
+  height: 60px;
+  color: rgba(255,255,255,0.6);
+  border-bottom-color: transparent;
+}
+body.home .cat-tab:hover { color: rgba(255,255,255,0.9); }
+body.home .cat-tab.active {
+  color: #ffffff;
+  border-bottom-color: #e85d2f;
 }
 
+/* 카테고리바 내 로고 */
 body.home .topbar-logo-mobile {
   display: block;
   flex: 0 0 auto;
   font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.2em;
-  color: #0f4c81;
-  margin: 0 8px 0 4px;
+  color: #ffffff;
+  margin: 0 12px 0 0;
   white-space: nowrap;
+}
+
+/* 카테고리바 내 검색창 */
+body.home .tab-search {
+  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.08);
+}
+body.home .tab-search svg { color: rgba(255,255,255,0.55); }
+body.home .tab-search input {
+  color: rgba(255,255,255,0.85);
+  background: transparent;
+}
+body.home .tab-search input::placeholder { color: rgba(255,255,255,0.4); }
+
+/* ── 메인 콘텐츠: 폭 제한 ── */
+body.home .main-content {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* 사이드바: 항상 드로어 */
