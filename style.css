@@ -84,9 +84,9 @@ input { font-family: inherit; }
 }
 
 #topbarNotice {
-  white-space: nowrap;
+  white-space: pre;
   display: inline-block;
-  animation: topbar-ticker 50s linear infinite;
+  animation: topbar-ticker 85s linear infinite;
 }
 
 @keyframes topbar-ticker {
