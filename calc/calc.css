@@ -8,75 +8,111 @@
   --color-text-light: #5a6378;
 }
 
-/* ─── 페이지 헤더 ─── */
+/* ─── 페이지 헤더 (네이비 배너) ─── */
 .page-header {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding: 24px 150px 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 28px 48px 28px;
   width: 100%;
-  flex-wrap: wrap;
   gap: 8px;
+  background: linear-gradient(135deg, #0a3560 0%, #0f4c81 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  right: -80px;
+  top: -60px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,93,47,0.12) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .page-title {
-  font-size: 21px;
-  font-weight: 700;
-  color: var(--color-text);
-  letter-spacing: -0.01em;
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
 }
 
 .breadcrumb {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;
-  color: var(--color-text-muted);
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  position: relative;
+  z-index: 1;
 }
 
 .breadcrumb a {
-  color: var(--color-text-muted);
+  color: rgba(255,255,255,0.55);
   transition: color var(--transition);
 }
 
-.breadcrumb a:hover { color: var(--color-text); }
+.breadcrumb a:hover { color: rgba(255,255,255,0.9); }
 
 .bc-sep {
-  color: var(--color-text-light);
+  color: rgba(255,255,255,0.25);
 }
 
 .bc-current {
-  color: var(--color-text);
+  color: rgba(255,255,255,0.85);
   font-weight: 500;
-}
-
-/* ─── 계산기 메인 묶음 (회색 배경) ─── */
-.calc-main-wrap {
-  background: #f1f5fb;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* calc-main-wrap 안 카드 — 흰 배경으로 띄우기 */
-.calc-main-wrap .calc-card-main {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-}
-
-.calc-main-wrap .result-panel {
-  background: transparent;
 }
 
 /* ─── 계산기 래퍼 ─── */
 .calc-wrapper {
-  padding: 20px 150px 48px;
+  padding: 32px 48px 56px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 40px;
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ─── 계산기 메인 묶음 (2컬럼 그리드) ─── */
+.calc-main-wrap {
+  background: transparent;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 0 32px;
+  align-items: start;
+}
+
+/* 입력 폼 — 좌측 sticky */
+.calc-main-wrap .calc-card-main {
+  grid-column: 1;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  position: sticky;
+  top: calc(var(--topbar-height) + 20px);
+}
+
+/* 결과 패널 — 우측 상단, 항상 표시 (inline style="display:none" 무력화) */
+.calc-main-wrap .result-panel {
+  grid-column: 2;
+  background: transparent;
+  display: flex !important;
+  flex-direction: column;
+}
+
+/* 팁·관련 계산기 — 우측 하단 */
+.calc-main-wrap .tip-related-wrap {
+  grid-column: 2;
 }
 
 /* ─── 메인 입력 카드 ─── */
@@ -646,10 +682,85 @@ select.field-input {
   line-height: 1.6;
 }
 
+/* ═══════════════════════════════════════════
+   계산기 페이지 레이아웃 오버라이드
+   calc.css는 style.css 뒤에 로드 → !important 없이 cascade로 덮어씀
+   ═══════════════════════════════════════════ */
+
+/* 전체 너비 레이아웃 — 사이드바 컬럼 제거 */
+.layout { grid-template-columns: 1fr; }
+.main-content { grid-column: 1; }
+.topbar { left: 0; right: 0; }
+
+/* 햄버거 · 점세개 항상 표시 */
+.btn-hamburger, .btn-dotmenu { display: flex; }
+
+/* 로고 항상 표시, 탑바 순서 교정 (calc HTML: hamburger→update→logo→right) */
+.btn-hamburger       { order: 1; }
+.topbar-logo-mobile  {
+  order: 2;
+  display: block;
+  flex: 0 0 auto;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #0f4c81;
+  margin-right: 0;
+}
+.topbar-update { order: 3; flex: 1; text-align: center; }
+.topbar-right  { order: 4; }
+
+/* 사이드바 — 항상 드로어 */
+.sidebar {
+  width: 280px;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.sidebar.mobile-open {
+  transform: translateX(0);
+  box-shadow: 4px 0 28px rgba(10,53,96,0.45);
+}
+
+/* 히스토리 패널 — 항상 드로어 */
+.history-panel {
+  width: 300px;
+  display: flex;
+  transform: translateX(100%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.history-panel.mobile-open {
+  transform: translateX(0);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.14);
+}
+
 /* ─── 반응형 ─── */
+
+/* 중간 화면: 2컬럼 → 패딩 축소 */
+@media (max-width: 1100px) {
+  .calc-wrapper { padding: 24px 32px 48px; }
+}
+
+/* 좁은 화면: 2컬럼 → 단일 컬럼 */
+@media (max-width: 780px) {
+  .calc-main-wrap {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .calc-main-wrap .calc-card-main {
+    grid-column: 1;
+    position: static;
+  }
+  .calc-main-wrap .result-panel,
+  .calc-main-wrap .tip-related-wrap {
+    grid-column: 1;
+  }
+}
+
 @media (max-width: 640px) {
-  .page-header { padding: 16px 16px 0; flex-direction: column; align-items: flex-start; }
-  .breadcrumb { display: none; }
+  .page-header { padding: 20px 20px 24px; }
+  .page-title { font-size: 20px; }
+  .breadcrumb { font-size: 12px; }
   .calc-wrapper { padding: 16px 16px 40px; }
   .calc-main-wrap .calc-card-main { background: transparent; border: none; border-radius: 0; }
   .calc-card-main { padding: 24px 0 20px !important; gap: 20px; background: transparent; border: none; border-radius: 0; }
