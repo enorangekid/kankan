@@ -18,7 +18,7 @@
   --color-input-bg: rgba(255,255,255,0.95);
   --sidebar-width: 320px;
   --history-width: 220px;
-  --topbar-height: 52px;
+  --topbar-height: 36px;
   --font-main: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --radius: 4px;
@@ -918,7 +918,6 @@ input { font-family: inherit; }
 body.home .layout {
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
-  padding-top: 36px; /* 공지바 높이 */
 }
 
 /* ── 공지 네비바: 전체 너비, 내부 콘텐츠는 1400px 영역 유지 ── */
