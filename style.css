@@ -922,33 +922,34 @@ body.home .layout {
 
 /* ── 공지 네비바: 네이비, 낮은 높이, 폭 제한 ── */
 body.home .topbar {
-  left: 0; right: 0;
+  left: 50%; right: auto;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1400px;
   height: 36px;
   background: #0f4c81;
   border-bottom: none;
-  padding: 0;
+  padding: 0 48px;
 }
 body.home .topbar-update {
   flex: 1;
   color: rgba(255,255,255,0.75);
   font-size: 12px;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 48px;
 }
 
 /* ── 햄버거·점메뉴 비활성화 ── */
 body.home .btn-hamburger,
 body.home .btn-dotmenu { display: none; }
 
-/* ── 카테고리바: 네이비, 높은 높이, 폭 제한 ── */
+/* ── 카테고리바: 동일 네이비, 오렌지 구분선, 폭 제한 ── */
 body.home .category-tabs {
-  top: 36px; /* 공지바 높이와 맞춤 */
+  top: 36px;
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   padding: 0 48px;
-  background: #0a3560;
+  background: #0f4c81;
+  border-top: 2px solid #e85d2f;
   border-bottom: none;
 }
 body.home .cat-tab {
