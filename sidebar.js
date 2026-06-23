@@ -167,6 +167,24 @@ function renderCalcNavBar() {
 
   layout.insertBefore(nav, layout.firstChild);
   buildCategoryDropdowns(nav, root);
+
+  // calc 페이지: 주입 후 히스토리 버튼 이벤트 연결
+  const overlay      = document.getElementById('mobileOverlay');
+  const historyPanel = document.getElementById('historyPanel');
+  const btnCatHistory = nav.querySelector('#btnCatHistory');
+  if (btnCatHistory && historyPanel && overlay) {
+    function closeAll() {
+      historyPanel.classList.remove('mobile-open');
+      overlay.classList.remove('active');
+    }
+    btnCatHistory.addEventListener('click', () => {
+      historyPanel.classList.contains('mobile-open') ? closeAll() : (
+        historyPanel.classList.add('mobile-open'),
+        overlay.classList.add('active')
+      );
+    });
+    overlay.addEventListener('click', closeAll);
+  }
 }
 
 // ── 헬퍼 ──
@@ -328,13 +346,11 @@ function showToast(msg) {
   el.addEventListener('click', () => { clearTimeout(t); remove(); });
 }
 
-// ── 모바일 드로어 ──
+// ── 드로어 ──
 function initMobileDrawers() {
   const overlay      = document.getElementById('mobileOverlay');
   const sidebar      = document.getElementById('sidebar');
   const historyPanel = document.getElementById('historyPanel');
-  const btnHamburger = document.getElementById('btnHamburger');
-  const btnDotMenu   = document.getElementById('btnDotMenu');
   if (!overlay) return;
 
   function closeAll() {
@@ -342,30 +358,19 @@ function initMobileDrawers() {
     historyPanel && historyPanel.classList.remove('mobile-open');
     overlay.classList.remove('active');
   }
-  function openSidebar() {
-    historyPanel && historyPanel.classList.remove('mobile-open');
-    sidebar && sidebar.classList.add('mobile-open');
-    overlay.classList.add('active');
-  }
   function openHistory() {
     sidebar && sidebar.classList.remove('mobile-open');
     historyPanel && historyPanel.classList.add('mobile-open');
     overlay.classList.add('active');
   }
 
-  btnHamburger && btnHamburger.addEventListener('click', () => {
-    sidebar && sidebar.classList.contains('mobile-open') ? closeAll() : openSidebar();
-  });
-
-  btnDotMenu && btnDotMenu.addEventListener('click', () => {
+  // 카테고리바 히스토리 아이콘 (홈·calc 공통)
+  const btnCatHistory = document.getElementById('btnCatHistory');
+  btnCatHistory && btnCatHistory.addEventListener('click', () => {
     historyPanel && historyPanel.classList.contains('mobile-open') ? closeAll() : openHistory();
   });
 
   overlay.addEventListener('click', closeAll);
-
-  sidebar && sidebar.addEventListener('click', e => {
-    if (e.target.closest('a[href]')) closeAll();
-  });
 }
 
 // ── 초기화 ──
