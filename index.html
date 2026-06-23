@@ -44,10 +44,6 @@
         <button class="cat-tab" data-cat="창호/도어/유리">창호·도어</button>
         <button class="cat-tab" data-cat="기타">기타</button>
       </div>
-      <div class="tab-search">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" placeholder="계산기 검색..." id="heroSearch" autocomplete="off" />
-      </div>
       <button class="btn-dotmenu" id="btnDotMenu" aria-label="계산 내역">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>
@@ -57,6 +53,14 @@
 
     <!-- ── 메인 콘텐츠 ── -->
     <main class="main-content">
+
+      <!-- 중앙 검색바 -->
+      <section class="home-search-bar">
+        <div class="hero-search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="어떤 계산기가 필요하신가요?" id="heroSearch" autocomplete="off" />
+        </div>
+      </section>
 
       <!-- 빠른 단위 변환 -->
       <section class="unit-converter">
