@@ -12,25 +12,13 @@
 </head>
 <body class="home">
 
-  <!-- ── 상단 헤더 ── -->
+  <!-- ── 상단 헤더 (로고 + 티커만) ── -->
   <header class="topbar">
-    <button class="btn-hamburger" id="btnHamburger" aria-label="메뉴 열기">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
     <a href="index.html" class="topbar-logo-mobile">KAN KAN</a>
     <span class="topbar-update">
       <span class="topbar-label">UPDATE</span>
       <span id="topbarNotice"></span>
     </span>
-    <div class="topbar-right">
-      <button class="btn-dotmenu" id="btnDotMenu" aria-label="계산 내역">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>
-        </svg>
-      </button>
-    </div>
   </header>
 
   <!-- 모바일 드로어 오버레이 -->
@@ -42,8 +30,13 @@
     <!-- ── 좌측 사이드바 (드로어) ── -->
     <aside class="sidebar" id="sidebar" data-root=""></aside>
 
-    <!-- ── 카테고리 탭 (sticky, layout 직속 자식) ── -->
+    <!-- ── 카테고리 탭 (햄버거 + 탭 + 검색 + 점메뉴) ── -->
     <nav class="category-tabs" id="categoryTabs">
+      <button class="btn-hamburger" id="btnHamburger" aria-label="메뉴 열기">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
       <div class="cat-tabs-list">
         <button class="cat-tab active" data-cat="">전체</button>
         <button class="cat-tab" data-cat="단열재/목공/보드">단열재</button>
@@ -55,6 +48,11 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" placeholder="계산기 검색..." id="heroSearch" autocomplete="off" />
       </div>
+      <button class="btn-dotmenu" id="btnDotMenu" aria-label="계산 내역">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>
+        </svg>
+      </button>
     </nav>
 
     <!-- ── 메인 콘텐츠 ── -->
