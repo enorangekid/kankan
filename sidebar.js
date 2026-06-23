@@ -5,7 +5,7 @@
 'use strict';
 
 // ── 공지사항 ──
-const NOTICE = '셀프인테리어의 필수도구 칸칸이 출시 되었습니다.';
+const NOTICE = '몇 장 사야 할지 몰라서 검색하셨나요?  ·  한 장 더 시켰다가 반품 못 한 경험, 있죠?  ·  어림잡지 마세요, 칸칸이 계산합니다  ·  자재 발주가 두려운 당신에게  ·  현장 오차를 줄이는 정밀 실무 로직  ·  셀프 인테리어의 필수 도구 칸칸';
 
 function renderNotice() {
   const el = document.getElementById('topbarNotice');

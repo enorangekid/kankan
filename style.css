@@ -70,14 +70,7 @@ input { font-family: inherit; }
 }
 
 .topbar-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  background: #e85d2f;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 3px;
-  margin-right: 8px;
+  display: none;
 }
 
 .topbar-update {
@@ -93,12 +86,7 @@ input { font-family: inherit; }
 #topbarNotice {
   white-space: nowrap;
   display: inline-block;
-  animation: topbar-ticker 22s linear infinite;
-}
-
-#topbarNotice:hover,
-.topbar-update:hover #topbarNotice {
-  animation-play-state: paused;
+  animation: topbar-ticker 50s linear infinite;
 }
 
 @keyframes topbar-ticker {
