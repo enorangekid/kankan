@@ -82,46 +82,27 @@
   box-sizing: border-box;
 }
 
-/* ─── 계산기 메인 묶음 (2컬럼 그리드) ─── */
+/* ─── 계산기 메인 묶음 (단일 컬럼) ─── */
 .calc-main-wrap {
   background: transparent;
   padding: 0;
-  display: grid;
-  grid-template-columns: 520px 1fr;
-  gap: 0 36px;
-  align-items: start;
-}
-
-/* 입력 폼 — 좌측 (overflow 방지 + sticky) */
-.calc-main-wrap .calc-card-main {
-  grid-column: 1;
-  min-width: 0;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  position: sticky;
-  top: calc(var(--topbar-height) + 20px);
-}
-
-/* 우측 컬럼 wrapper — 결과+팁을 flex 컬럼으로 묶어 빈 공간 제거 */
-.calc-right-col {
-  grid-column: 2;
-  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
-/* 결과 패널 (JS가 display 제어, grid-column은 부모 wrapper가 담당) */
+/* 결과+팁 wrapper (flex 투명 컨테이너) */
+.calc-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 결과 패널 */
 .calc-main-wrap .result-panel {
-  min-width: 0;
   background: transparent;
 }
 
-/* 팁·관련 계산기 */
-.calc-main-wrap .tip-related-wrap {
-  min-width: 0;
-}
 
 /* ─── 메인 입력 카드 ─── */
 .calc-card-main {
@@ -750,20 +731,6 @@ select.field-input {
   .calc-wrapper { padding: 24px 32px 48px; }
 }
 
-/* 좁은 화면: 2컬럼 → 단일 컬럼 */
-@media (max-width: 900px) {
-  .calc-main-wrap {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .calc-main-wrap .calc-card-main {
-    grid-column: 1;
-    position: static;
-  }
-  .calc-right-col {
-    grid-column: 1;
-  }
-}
 
 @media (max-width: 640px) {
   .page-header { padding: 20px 20px 24px; }
