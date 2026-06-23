@@ -998,6 +998,7 @@ body.home .main-content {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
+  background: transparent;
 }
 
 /* 사이드바: 항상 드로어 */
