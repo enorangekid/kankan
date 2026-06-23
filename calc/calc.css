@@ -2,11 +2,13 @@
    칸칸 — 계산기 페이지 스타일 (calc.css)
    ───────────────────────────────────────── */
 
-/* 계산기 페이지 전용 — 회색 폰트 진하게 */
+/* 계산기 페이지 전용 */
 :root {
   --color-text-muted: #4a5568;
   --color-text-light: #5a6378;
 }
+
+body { background: var(--color-bg); }
 
 /* ─── 페이지 헤더 ─── */
 .page-header {
@@ -682,6 +684,7 @@ select.field-input {
 .topbar .topbar-update {
   flex: 1;
   color: #e85d2f;
+  font-size: 12px;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 48px;
