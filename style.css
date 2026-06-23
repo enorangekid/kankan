@@ -909,8 +909,11 @@ input { font-family: inherit; }
    ═══════════════════════════════════════════ */
 
 /* 레이아웃: 사이드바 컬럼 제거, 전체 너비 */
-body.home .layout { grid-template-columns: 1fr; }
-body.home .topbar  { left: 0; right: 0; }
+body.home .layout {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+}
+body.home .topbar { left: 0; right: 0; }
 
 /* 탑바: 햄버거·로고·점세개 항상 표시 */
 body.home .btn-hamburger,
