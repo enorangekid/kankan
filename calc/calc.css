@@ -4,8 +4,8 @@
 
 /* 계산기 페이지 전용 — 회색 폰트 진하게 */
 :root {
-  --color-text-muted: #555;
-  --color-text-light: #777;
+  --color-text-muted: #4a5568;
+  --color-text-light: #5a6378;
 }
 
 /* ─── 페이지 헤더 ─── */
@@ -52,7 +52,7 @@
 
 /* ─── 계산기 메인 묶음 (회색 배경) ─── */
 .calc-main-wrap {
-  background: #f4f4f4;
+  background: #f1f5fb;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -137,7 +137,7 @@
 }
 
 .field-input-wrap:focus-within {
-  border-color: #888;
+  border-color: #0f4c81;
 }
 
 .field-input {
@@ -165,7 +165,7 @@
   align-items: stretch;
   align-self: stretch;
   border-left: 1px solid var(--color-border);
-  background: #f4f4f4;
+  background: #f1f5fb;
   flex-shrink: 0;
 }
 
@@ -194,7 +194,7 @@
   padding: 0 12px;
   flex-shrink: 0;
   border-left: 1px solid var(--color-border);
-  background: #f4f4f4;
+  background: #f1f5fb;
 }
 
 .unit-label {
@@ -297,7 +297,7 @@ select.field-input {
 
 /* 차감 카드 */
 .deduct-card {
-  background: #f4f4f4;
+  background: #f1f5fb;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 20px 24px;
@@ -327,7 +327,7 @@ select.field-input {
 .btn-deduct-add {
   display: inline-flex;
   align-items: center;
-  background: #1a1a1a;
+  background: #0f4c81;
   color: #fff;
   border: none;
   border-radius: 3px;
@@ -340,7 +340,7 @@ select.field-input {
   white-space: nowrap;
 }
 
-.btn-deduct-add:hover { background: #333; }
+.btn-deduct-add:hover { background: #1a6bb5; }
 
 .btn-deduct-remove {
   display: inline-flex;
@@ -375,7 +375,7 @@ select.field-input {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1a1a1a;
+  background: #e85d2f;
   color: #fff;
   border: none;
   border-radius: var(--radius);
@@ -389,7 +389,7 @@ select.field-input {
 }
 
 .btn-calc:hover {
-  background: #333;
+  background: #d04420;
   transform: translateY(-1px);
 }
 
@@ -444,9 +444,9 @@ select.field-input {
   overflow: hidden;
 }
 
-/* 왼쪽: 검정 메인 카드 */
+/* 왼쪽: 네이비 메인 카드 */
 .result-main-card {
-  background: #1a1a1a;
+  background: #0f4c81;
   padding: 40px 36px;
   display: flex;
   flex-direction: column;
@@ -632,8 +632,8 @@ select.field-input {
 }
 
 .related-tag:hover {
-  background: #1a1a1a;
-  border-color: #1a1a1a;
+  background: #0f4c81;
+  border-color: #0f4c81;
   color: #fff;
 }
 
@@ -769,9 +769,9 @@ select.field-input {
 
 /* ─── 공식 박스 ─── */
 .seo-formula {
-  background: #f4f4f4;
+  background: #f1f5fb;
   border: 1px solid var(--color-border);
-  border-left: 3px solid #1a1a1a;
+  border-left: 3px solid #0f4c81;
   border-radius: var(--radius);
   padding: 16px 20px;
   display: flex;
@@ -821,7 +821,7 @@ select.field-input {
 }
 
 .seo-table th {
-  background: #f4f4f4;
+  background: #f1f5fb;
   padding: 11px 16px;
   text-align: left;
   font-size: 13px;
@@ -851,7 +851,7 @@ select.field-input {
 }
 
 .seo-table tbody tr:hover {
-  background: #f9f9f7;
+  background: #f1f5fb;
 }
 
 .seo-table tbody tr:last-child td {
@@ -957,7 +957,7 @@ select.field-input {
 .custom-select-btn:focus,
 .custom-select-wrap.open .custom-select-btn {
   outline: none;
-  border-color: #888;
+  border-color: #0f4c81;
 }
 
 .custom-select-arrow {
@@ -977,7 +977,7 @@ select.field-input {
   left: 0;
   right: 0;
   background: var(--color-surface);
-  border: 1px solid #888;
+  border: 1px solid #0f4c81;
   border-radius: var(--radius);
   list-style: none;
   margin: 0;
@@ -999,11 +999,11 @@ select.field-input {
 }
 
 .custom-select-item:hover {
-  background: #f4f4f4;
+  background: #f1f5fb;
 }
 
 .custom-select-item.active {
-  background: #1a1a1a;
+  background: #0f4c81;
   color: #fff;
 }
 
@@ -1012,7 +1012,7 @@ select.field-input {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #f4f4f4;
+  background: #f1f5fb;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 11px 16px;
@@ -1071,8 +1071,8 @@ select.field-input {
 }
 
 .btn-preset.active {
-  background: #1a1a1a;
-  border-color: #1a1a1a;
+  background: #0f4c81;
+  border-color: #0f4c81;
   color: #fff;
 }
 
@@ -1121,7 +1121,7 @@ select.field-input {
 .ref-table th {
   position: sticky;
   top: 0;
-  background: #f4f4f4;
+  background: #f1f5fb;
   padding: 9px 12px;
   border-bottom: 1px solid var(--color-border);
   font-size: 12px;
@@ -1215,7 +1215,7 @@ select.field-input {
   outline: none;
   transition: border-color var(--transition);
 }
-.tc-search:focus { border-color: #888; }
+.tc-search:focus { border-color: #0f4c81; }
 
 .tc-filter-tabs {
   display: flex;
@@ -1236,7 +1236,7 @@ select.field-input {
   white-space: nowrap;
 }
 .tc-tab:hover { background: var(--color-bg); border-color: #bbb; color: var(--color-text); }
-.tc-tab.active { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+.tc-tab.active { background: #0f4c81; border-color: #0f4c81; color: #fff; }
 
 .tc-table-wrap {
   overflow-x: auto;
@@ -1249,7 +1249,7 @@ select.field-input {
   font-size: 14px;
 }
 .tc-table thead th {
-  background: #1a1a1a;
+  background: #0f4c81;
   color: rgba(255,255,255,0.85);
   padding: 12px 16px;
   text-align: left;
@@ -1264,7 +1264,7 @@ select.field-input {
 }
 .tc-table thead th:last-child { border-right: none; }
 .tc-table thead th.col-lambda {
-  background: #1a1a1a;
+  background: #0f4c81;
   color: rgba(255,255,255,0.85);
 }
 
@@ -1280,7 +1280,7 @@ select.field-input {
 }
 .tc-table tr.group-row td span {
   display: inline-block;
-  background: #1a1a1a;
+  background: #0f4c81;
   color: #fff;
   padding: 2px 8px;
   border-radius: 3px;
@@ -1293,7 +1293,7 @@ select.field-input {
   transition: background var(--transition);
 }
 .tc-table tbody tr.data-row:last-child { border-bottom: none; }
-.tc-table tbody tr.data-row:hover td { background: #f9f9f7 !important; }
+.tc-table tbody tr.data-row:hover td { background: #f1f5fb !important; }
 .tc-table tbody tr.data-row.hidden { display: none; }
 
 .tc-table td {
@@ -1320,7 +1320,7 @@ select.field-input {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 14px;
-  color: #1a1a1a;
+  color: #1a1f2e;
   background: #ffffff;
   white-space: nowrap;
 }
@@ -1435,7 +1435,7 @@ select.field-input {
   min-width: 760px;
 }
 .uval-table thead th {
-  background: #1a1a1a;
+  background: #0f4c81;
   color: rgba(255,255,255,0.85);
   padding: 12px 16px;
   font-size: 12px;
@@ -1447,7 +1447,7 @@ select.field-input {
 }
 .uval-table thead th:last-child { border-right: none; }
 .uval-table th.th-region {
-  background: #2d2d2d;
+  background: #1a6bb5;
   text-align: center;
   font-size: 12px;
   letter-spacing: 0.06em;
@@ -1499,7 +1499,7 @@ select.field-input {
   font-family: var(--font-mono);
   font-size: 14px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #1a1f2e;
   padding: 10px 14px;
   border-right: 1px solid var(--color-border);
   vertical-align: middle;

@@ -27,27 +27,42 @@ const CALCULATORS = NAV_ITEMS.flatMap(section =>
   )
 );
 
+// ── 현재 카테고리 필터 상태 ──
+let currentCategory = '';
+
 // ── 계산기 그리드 렌더링 ──
-function renderCalcGrid(filter = '') {
+function renderCalcGrid(searchFilter = '', categoryFilter = '') {
   const grid = document.getElementById('calcGrid');
   if (!grid) return;
 
-  const filtered = filter
-    ? CALCULATORS.filter(c =>
-        c.name.includes(filter) || c.category.includes(filter)
-      )
-    : CALCULATORS;
+  let filtered = CALCULATORS;
 
-  if (filter) {
-    grid.innerHTML = filtered.length
-      ? filtered.map(c => calcCardHTML(c)).join('')
-      : '<p style="grid-column:1/-1;text-align:center;color:var(--color-text-muted);padding:40px 0;font-size:14px;">검색 결과가 없습니다.</p>';
+  if (categoryFilter) {
+    filtered = filtered.filter(c => c.category === categoryFilter);
+  }
 
-    if (filtered.length) {
-      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (searchFilter) {
+    filtered = filtered.filter(c =>
+      c.name.includes(searchFilter) || c.category.includes(searchFilter)
+    );
+  }
+
+  const isEmpty = !searchFilter && !categoryFilter;
+
+  grid.innerHTML = filtered.length
+    ? filtered.map(c => calcCardHTML(c)).join('')
+    : '<p style="grid-column:1/-1;text-align:center;color:var(--color-text-muted);padding:40px 0;font-size:14px;">검색 결과가 없습니다.</p>';
+
+  // 그리드 타이틀 업데이트 (홈 페이지에만 있음)
+  const gridTitle = document.getElementById('gridTitle');
+  if (gridTitle) {
+    if (categoryFilter) {
+      gridTitle.textContent = categoryFilter;
+    } else if (searchFilter) {
+      gridTitle.textContent = `"${searchFilter}" 검색 결과`;
+    } else {
+      gridTitle.textContent = '계산기 한번에 보기';
     }
-  } else {
-    grid.innerHTML = CALCULATORS.map(c => calcCardHTML(c)).join('');
   }
 }
 
@@ -108,11 +123,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 히어로 검색
+  // 카테고리 탭 필터
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentCategory = tab.dataset.cat || '';
+      const searchVal = document.getElementById('heroSearch');
+      renderCalcGrid(searchVal ? searchVal.value.trim() : '', currentCategory);
+    });
+  });
+
+  // 검색 (홈 탭바 or 히어로)
   const heroSearch = document.getElementById('heroSearch');
   if (heroSearch) {
     heroSearch.addEventListener('input', e => {
-      renderCalcGrid(e.target.value.trim());
+      renderCalcGrid(e.target.value.trim(), currentCategory);
     });
   }
 
