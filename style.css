@@ -82,11 +82,28 @@ input { font-family: inherit; }
 
 .topbar-update {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
   font-size: 13px;
   color: var(--color-text-muted);
+}
+
+#topbarNotice {
   white-space: nowrap;
-  overflow: visible;
-  min-width: 0;
+  display: inline-block;
+  animation: topbar-ticker 22s linear infinite;
+}
+
+#topbarNotice:hover,
+.topbar-update:hover #topbarNotice {
+  animation-play-state: paused;
+}
+
+@keyframes topbar-ticker {
+  from { transform: translateX(100vw); }
+  to   { transform: translateX(-100%); }
 }
 
 .topbar-right {
@@ -931,7 +948,6 @@ body.home .topbar-logo-mobile {
 }
 body.home .topbar-update {
   flex: 1;
-  text-align: center;
 }
 
 /* 사이드바: 항상 드로어 */

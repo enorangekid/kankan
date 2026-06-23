@@ -698,7 +698,7 @@ select.field-input {
   color: #0f4c81;
   margin-right: 0;
 }
-.topbar-update { order: 3; flex: 1; text-align: center; }
+.topbar-update { order: 3; flex: 1; }
 .topbar-right  { order: 4; }
 
 /* 사이드바 — 항상 드로어 */
