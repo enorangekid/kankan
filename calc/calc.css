@@ -574,7 +574,7 @@ select.field-input {
   border: none;
   border-radius: 0;
   padding: 0;
-  margin-bottom: 0;
+  margin: 0 20px 0;
 }
 
 .tip-title {
