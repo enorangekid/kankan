@@ -277,6 +277,10 @@ function buildCategoryDropdowns(container, root) {
     });
 
     wrap.appendChild(dropdown);
+
+    // CSS hover 대신 JS로 is-open 토글 — 클릭 순간 hover 끊김 방지
+    wrap.addEventListener('mouseenter', () => wrap.classList.add('is-open'));
+    wrap.addEventListener('mouseleave', () => wrap.classList.remove('is-open'));
   });
 
   // 이전 페이지에서 저장된 카테고리 드롭다운 복원
@@ -288,7 +292,7 @@ function buildCategoryDropdowns(container, root) {
       const savedWrap = savedTab.closest('.cat-tab-wrap');
       if (savedWrap) {
         savedWrap.classList.add('is-open');
-        savedWrap.addEventListener('mouseleave', () => savedWrap.classList.remove('is-open'), { once: true });
+        // mouseleave는 위의 공통 핸들러가 처리
       }
     }
   }
