@@ -245,6 +245,9 @@ function buildCategoryDropdowns(container, root) {
       tab.appendChild(chevron);
     }
 
+    // SPA: 이미 드롭다운이 초기화된 wrap은 건너뜀 (중복 방지)
+    if (wrap.querySelector('.cat-dropdown')) return;
+
     const dropdown = document.createElement('div');
     dropdown.className = 'cat-dropdown';
 
@@ -514,6 +517,18 @@ function initMobileDrawers() {
     sidebar && sidebar.classList.remove('mobile-open');
     historyPanel && historyPanel.classList.add('mobile-open');
     overlay.classList.add('active');
+  }
+
+  // 햄버거 — 사이드바 드로어 열기
+  const btnHamburger = document.getElementById('btnHamburger');
+  if (btnHamburger && sidebar) {
+    btnHamburger.addEventListener('click', () => {
+      sidebar.classList.contains('mobile-open') ? closeAll() : (
+        historyPanel && historyPanel.classList.remove('mobile-open'),
+        sidebar.classList.add('mobile-open'),
+        overlay.classList.add('active')
+      );
+    });
   }
 
   // 카테고리바 히스토리 아이콘 (홈·calc 공통)

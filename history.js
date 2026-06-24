@@ -126,7 +126,12 @@ const KankanHistory = {
         } else if (!isRoot && targetUrl.startsWith('calc/')) {
           targetUrl = targetUrl.replace(/^calc\//, '');
         }
-        window.location.href = `${targetUrl}?${params.toString()}`;
+        const fullUrl = `${targetUrl}?${params.toString()}`;
+        if (window.KankanRouter) {
+          window.KankanRouter.navigate(fullUrl);
+        } else {
+          window.location.href = fullUrl;
+        }
       });
     });
   },

@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>칸칸 — 현장 맞춤 계산기</title>
+  <!-- SPA: all relative URLs resolve from site root regardless of pushState URL -->
+  <base href="/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="calc/calc.css" />
 </head>
 <body class="home">
 
@@ -113,5 +116,6 @@
   <script src="sidebar.js"></script>
   <script src="history.js"></script>
   <script src="app.js"></script>
+  <script src="router.js"></script>
 </body>
 </html>

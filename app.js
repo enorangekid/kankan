@@ -69,11 +69,14 @@ function calcCardHTML(c) {
 function openCalc(id) {
   const calc = CALCULATORS.find(c => c.id === id);
   if (!calc) return;
-  if (calc.url) {
-    trackRecentCalc(calc.name, calc.url);
-    window.location.href = calc.url;
+  const url = calc.url
+    ? calc.url
+    : `coming-soon.html?name=${encodeURIComponent(calc.name)}`;
+  if (calc.url) trackRecentCalc(calc.name, calc.url);
+  if (window.KankanRouter) {
+    window.KankanRouter.navigate(url);
   } else {
-    window.location.href = `coming-soon.html?name=${encodeURIComponent(calc.name)}`;
+    window.location.href = url;
   }
 }
 
@@ -83,8 +86,8 @@ function roundTo(n, places) {
   return Math.round(n * factor) / factor;
 }
 
-// ── 초기화 ──
-document.addEventListener('DOMContentLoaded', () => {
+// ── 홈 페이지 초기화 (SPA 재진입 시에도 직접 호출 가능) ──
+function initHomePage() {
   // 단위 변환: 평 ↔ m²
   const pyeongInput = document.getElementById('pyeong');
   const sqmInput    = document.getElementById('sqm');
@@ -113,8 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 카테고리 드롭다운 초기화 (sidebar.js의 공유 함수 사용, 홈 루트는 '')
-  buildCategoryDropdowns(document.querySelector('.cat-tabs-list'), '');
+  // 카테고리 드롭다운 초기화 (홈 루트는 '')
+  if (typeof buildCategoryDropdowns === 'function') {
+    buildCategoryDropdowns(document.querySelector('.cat-tabs-list'), '');
+  }
 
   // 계산기 그리드 클릭 이벤트 위임
   const calcGrid = document.getElementById('calcGrid');
@@ -129,4 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCalcGrid();
   KankanHistory.renderPanel();
   KankanHistory.renderClearBtn();
-});
+}
+
+document.addEventListener('DOMContentLoaded', initHomePage);
