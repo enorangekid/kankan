@@ -1260,6 +1260,7 @@ body.home .cat-tabs-list { overflow: visible; }
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
+  transition: none;
 }
 .cat-tab-wrap.is-open .cat-tab-chevron {
   transform: rotate(180deg);
