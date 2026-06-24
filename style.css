@@ -146,12 +146,15 @@ input { font-family: inherit; }
   align-items: center;
   padding: 0 20px;
   height: 88px;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 800;
   letter-spacing: 0.2em;
   color: var(--color-text);
   flex-shrink: 0;
+  transition: color var(--transition);
 }
+
+.logo:hover { color: #888; }
 
 .nav-category {
   padding: 18px 28px 6px;
@@ -618,6 +621,7 @@ input { font-family: inherit; }
 }
 
 .sidebar .logo { color: #fff; }
+.sidebar .logo:hover { color: #aaa; }
 
 .sidebar .nav-category { color: rgba(255,255,255,0.4); }
 
