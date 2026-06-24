@@ -873,8 +873,8 @@ select.field-input {
 
 /* ─── 공식 박스 ─── */
 .seo-formula {
-  background: #fff8f5;
-  border: 1px solid #f5d5c8;
+  background: #fde8de;
+  border: none;
   border-left: 3px solid var(--color-accent);
   border-radius: var(--radius);
   padding: 16px 20px;
