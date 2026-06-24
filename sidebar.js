@@ -263,10 +263,16 @@ function buildCategoryDropdowns(container, root) {
       }
     }
 
-    // 드롭다운 링크 클릭 시 카테고리 저장 → 새 페이지에서 복원
     dropdown.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        sessionStorage.setItem('kankan_open_cat', cat);
+      link.addEventListener('click', e => {
+        if (document.body.classList.contains('home')) {
+          e.preventDefault();
+          renderCalcGrid('', cat);
+          document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+        } else {
+          sessionStorage.setItem('kankan_open_cat', cat);
+        }
       });
     });
 
