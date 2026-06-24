@@ -264,13 +264,8 @@ function buildCategoryDropdowns(container, root) {
     }
 
     dropdown.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', e => {
-        if (document.body.classList.contains('home')) {
-          e.preventDefault();
-          renderCalcGrid('', cat);
-          document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-        } else {
+      link.addEventListener('click', () => {
+        if (!document.body.classList.contains('home')) {
           sessionStorage.setItem('kankan_open_cat', cat);
         }
       });
