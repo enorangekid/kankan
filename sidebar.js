@@ -521,12 +521,18 @@ function initMobileDrawers() {
 }
 
 // ── 초기화 ──
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => { renderSidebar(); renderNotice(); renderCalcNavBar(); initMobileDrawers(); renderSearchModal(); });
-} else {
-  renderSidebar();
+function _init() {
   renderNotice();
   renderCalcNavBar();
-  initMobileDrawers();
-  renderSearchModal();
+  // 사이드바·검색모달은 첫 프레임 이후 렌더링 → 카테고리바 깜빡임 방지
+  requestAnimationFrame(() => {
+    renderSidebar();
+    initMobileDrawers();
+    renderSearchModal();
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _init);
+} else {
+  _init();
 }

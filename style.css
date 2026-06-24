@@ -1217,6 +1217,7 @@ body.home .history-panel.mobile-open {
   padding: 0 8px;
   gap: 4px;
   overflow: visible;
+  will-change: transform;
 }
 
 /* 탭 목록: 중앙 정렬, 내부 스크롤 */
