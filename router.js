@@ -67,9 +67,12 @@
       // Track recent calc visit
       if (!doc.body.classList.contains('home') && typeof trackRecentCalc === 'function') {
         const pagePath = new URL(target).pathname.replace(/^\//, '');
-        for (const section of NAV_ITEMS) {
+        outer: for (const section of NAV_ITEMS) {
           for (const item of section.items) {
-            if (item.url === pagePath) { trackRecentCalc(item.name, item.url); break; }
+            if (item.url && (pagePath === item.url || pagePath.endsWith('/' + item.url))) {
+              trackRecentCalc(item.name, item.url);
+              break outer;
+            }
           }
         }
       }

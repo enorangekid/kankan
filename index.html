@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>칸칸 — 현장 맞춤 계산기</title>
-  <!-- SPA: all relative URLs resolve from site root regardless of pushState URL -->
-  <base href="/" />
+  <!-- SPA: base href resolves to index.html's directory at parse time.
+       ".": localhost → "/" | GitHub Pages → "/kankan/"
+       Stays constant through pushState navigations. -->
+  <base href="." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
