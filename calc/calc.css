@@ -703,13 +703,16 @@ select.field-input {
 .category-tabs .topbar-logo-mobile {
   display: block;
   flex: 0 0 auto;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: 0.2em;
   color: #ffffff;
   margin: 0 12px 0 0;
   white-space: nowrap;
+  transition: color var(--transition);
 }
+
+.category-tabs .topbar-logo-mobile:hover { color: #888; }
 .cat-tab {
   height: 60px;
   color: rgba(255,255,255,0.6);
