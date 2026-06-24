@@ -195,6 +195,7 @@ function renderSearchModal() {
   document.getElementById('btnSearchClose').addEventListener('click', closeModal);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  overlay.addEventListener('click', e => { if (e.target.closest('.search-result-item')) closeModal(); });
 
   // 검색 아이콘 클릭 — DOM에 언제 추가되든 이벤트 위임
   document.addEventListener('click', e => {
