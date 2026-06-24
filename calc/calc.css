@@ -873,9 +873,9 @@ select.field-input {
 
 /* ─── 공식 박스 ─── */
 .seo-formula {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-left: 3px solid #05070b;
+  background: #fff8f5;
+  border: 1px solid #f5d5c8;
+  border-left: 3px solid var(--color-accent);
   border-radius: var(--radius);
   padding: 16px 20px;
   display: flex;
