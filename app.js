@@ -34,33 +34,24 @@ function renderCalcGrid(searchFilter = '', categoryFilter = '') {
   if (!grid) return;
 
   let filtered = CALCULATORS;
+  if (categoryFilter) filtered = filtered.filter(c => c.category === categoryFilter);
+  if (searchFilter) filtered = filtered.filter(c =>
+    c.name.includes(searchFilter) || c.category.includes(searchFilter)
+  );
 
-  if (categoryFilter) {
-    filtered = filtered.filter(c => c.category === categoryFilter);
-  }
-
-  if (searchFilter) {
-    filtered = filtered.filter(c =>
-      c.name.includes(searchFilter) || c.category.includes(searchFilter)
-    );
-  }
-
-  const isEmpty = !searchFilter && !categoryFilter;
-
-  grid.innerHTML = filtered.length
+  const html = filtered.length
     ? filtered.map(c => calcCardHTML(c)).join('')
     : '<p style="grid-column:1/-1;text-align:center;color:var(--color-text-muted);padding:40px 0;font-size:14px;">검색 결과가 없습니다.</p>';
 
-  // 그리드 타이틀 업데이트 (홈 페이지에만 있음)
+  requestAnimationFrame(() => {
+    grid.innerHTML = html;
+  });
+
   const gridTitle = document.getElementById('gridTitle');
   if (gridTitle) {
-    if (categoryFilter) {
-      gridTitle.textContent = categoryFilter;
-    } else if (searchFilter) {
-      gridTitle.textContent = `"${searchFilter}" 검색 결과`;
-    } else {
-      gridTitle.textContent = '계산기 한번에 보기';
-    }
+    if (categoryFilter) gridTitle.textContent = categoryFilter;
+    else if (searchFilter) gridTitle.textContent = `"${searchFilter}" 검색 결과`;
+    else gridTitle.textContent = '계산기 한번에 보기';
   }
 }
 
