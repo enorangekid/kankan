@@ -74,7 +74,7 @@ function trackRecentCalc(name, url) {
     let list = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
     list = list.filter(c => c.url !== url);
     list.unshift({ name, url });
-    if (list.length > 6) list = list.slice(0, 6);
+    if (list.length > 5) list = list.slice(0, 5);
     localStorage.setItem(RECENT_KEY, JSON.stringify(list));
   } catch(e) {}
 }
@@ -86,12 +86,12 @@ function getRecentCalcs() {
 
 // ── 인기 계산기 ──
 const POPULAR_CALCS = [
-  { name: '석고보드 수량 계산기',                    url: 'calc/gypsum.html' },
-  { name: '판상형 단열재 수량 계산기',               url: 'calc/insulation-board.html' },
-  { name: '단열벽지 소요량 계산기',                  url: 'calc/thermal-wallpaper.html' },
-  { name: '우레탄폼 이액형[대용량] 소요량 계산기',   url: 'calc/foam-2k.html' },
-  { name: '장판 소요량 계산기',                      url: 'calc/flooring.html' },
-  { name: '천장재[텍스] 수량 계산기',                url: 'calc/tex.html' },
+  { name: '판상형단열재',  url: 'calc/insulation-board.html' },
+  { name: '열반사단열재',  url: 'calc/reflective-insulation.html' },
+  { name: '캠핑단열재',    url: 'calc/insulation-board-camp.html' },
+  { name: '석고보드',      url: 'calc/gypsum.html' },
+  { name: '단열벽지',      url: 'calc/thermal-wallpaper.html' },
+  { name: '단열재두께',    url: 'calc/insulation-thickness.html' },
 ];
 
 function shortName(name) {
@@ -143,8 +143,20 @@ function renderSearchModal() {
     if (recent.length > 0) {
       html += `<div class="search-section">
         <div class="search-section-title">최근 본 계산기</div>
-        <div class="search-chips">
-          ${recent.map(c => `<a class="search-chip" href="${root}${c.url}">${shortName(c.name)}</a>`).join('')}
+        <div class="search-results">
+          ${recent.slice(0, 5).map(c => {
+            const cat = NAV_ITEMS.find(s => s.items.some(i => i.url === c.url))?.category || '';
+            return `<a class="search-result-item" href="${root}${c.url}">
+              <span class="search-result-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+              </span>
+              <span class="search-result-cat">${cat}</span>
+              <span class="search-result-name">${c.name}</span>
+              <span class="search-result-arrow">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </a>`;
+          }).join('')}
         </div>
       </div>`;
     }
@@ -223,6 +235,11 @@ function buildCategoryDropdowns(container, root) {
     tab.parentNode.insertBefore(wrap, tab);
     wrap.appendChild(tab);
 
+    const chevron = document.createElement('span');
+    chevron.className = 'cat-tab-chevron';
+    chevron.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+    tab.appendChild(chevron);
+
     const dropdown = document.createElement('div');
     dropdown.className = 'cat-dropdown';
 
@@ -244,53 +261,20 @@ function buildCategoryDropdowns(container, root) {
   });
 }
 
-// ── 계산기 페이지 카테고리 네비바 주입 ──
+// ── 계산기 페이지 카테고리 네비바 초기화 (HTML은 각 페이지에 정적 포함) ──
 function renderCalcNavBar() {
   if (document.body.classList.contains('home')) return;
-  const layout = document.querySelector('.layout');
-  if (!layout || document.getElementById('categoryTabs')) return;
+  const nav = document.getElementById('categoryTabs');
+  if (!nav) return;
 
   const sidebarEl = document.getElementById('sidebar');
   const root = (sidebarEl && sidebarEl.dataset.root) || '../';
 
-  const nav = document.createElement('nav');
-  nav.className = 'category-tabs';
-  nav.id = 'categoryTabs';
+  // 로고 href 설정
+  const logo = nav.querySelector('.topbar-logo-mobile');
+  if (logo) logo.href = root + 'index.html';
 
-  const logo = document.createElement('a');
-  logo.href = root + 'index.html';
-  logo.className = 'topbar-logo-mobile';
-  logo.textContent = 'KAN KAN';
-  nav.appendChild(logo);
-
-  const tabsList = document.createElement('div');
-  tabsList.className = 'cat-tabs-list';
-  NAV_ITEMS.forEach(section => {
-    const btn = document.createElement('button');
-    btn.className = 'cat-tab';
-    btn.dataset.cat = section.category;
-    btn.textContent = section.category;
-    tabsList.appendChild(btn);
-  });
-  nav.appendChild(tabsList);
-
-  const actions = document.createElement('div');
-  actions.className = 'cat-actions';
-  actions.innerHTML = `
-    <button class="cat-action-btn" id="btnCatSearch" aria-label="검색">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-    </button>
-    <button class="cat-action-btn" id="btnCatHistory" aria-label="계산 내역">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/>
-      </svg>
-    </button>
-  `;
-  nav.appendChild(actions);
-
-  layout.insertBefore(nav, layout.firstChild);
+  // 드롭다운 빌드
   buildCategoryDropdowns(nav, root);
 
   // 현재 페이지를 최근 본 계산기에 저장
@@ -304,7 +288,7 @@ function renderCalcNavBar() {
     }
   }
 
-  // calc 페이지: 주입 후 히스토리 버튼 이벤트 연결
+  // 히스토리 버튼 이벤트 연결
   const overlay      = document.getElementById('mobileOverlay');
   const historyPanel = document.getElementById('historyPanel');
   const btnCatHistory = nav.querySelector('#btnCatHistory');

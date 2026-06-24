@@ -57,8 +57,7 @@ input { font-family: inherit; }
 
 /* ─── 상단 토스트바 ─── */
 .topbar {
-  position: fixed;
-  top: 0; left: var(--sidebar-width); right: var(--history-width);
+  position: relative;
   height: var(--topbar-height);
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -107,7 +106,6 @@ input { font-family: inherit; }
   grid-template-columns: var(--sidebar-width) 1fr var(--history-width);
   grid-template-rows: 1fr;
   min-height: 100vh;
-  padding-top: var(--topbar-height);
 }
 
 /* ─── 사이드바 ─── */
@@ -935,9 +933,8 @@ body.home .topbar-update {
   flex: 1;
   color: #e85d2f;
   font-size: 12px;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 48px;
+  margin-left: max(48px, calc((100vw - 1400px) / 2 + 48px));
+  margin-right: max(48px, calc((100vw - 1400px) / 2 + 48px));
 }
 
 /* ── 햄버거·점메뉴 비활성화 ── */
@@ -946,7 +943,7 @@ body.home .btn-dotmenu { display: none; }
 
 /* ── 카테고리바: 전체 너비, 내부 콘텐츠는 1400px 영역 유지 ── */
 body.home .category-tabs {
-  top: 36px;
+  top: 0;
   max-width: none;
   width: 100%;
   margin: 0;
@@ -1057,9 +1054,11 @@ body.home .topbar-logo-mobile {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  max-height: 420px;
+  max-height: 520px;
   overflow-y: auto;
+  scrollbar-width: none;
 }
+.search-modal-body::-webkit-scrollbar { display: none; }
 .search-section { display: flex; flex-direction: column; gap: 8px; }
 .search-section-title {
   font-size: 10.5px;
@@ -1071,17 +1070,19 @@ body.home .topbar-logo-mobile {
 .search-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .search-chip {
   padding: 5px 13px;
-  border: 1px solid var(--color-border);
   border-radius: 20px;
+  border: 1px solid #d0d4dc;
   font-size: 13px;
-  color: var(--color-text);
-  background: var(--color-bg);
+  background: #ffffff;
+  color: #5a6378;
   white-space: nowrap;
-  transition: all 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
-.search-chip:hover { background: #05070b; color: #fff; border-color: #05070b; }
-.search-chip--hot { border-color: rgba(232,93,47,0.35); }
-.search-chip--hot:hover { background: #e85d2f; color: #fff; border-color: #e85d2f; }
+.search-chip:hover {
+  background: #fff5f0;
+  border-color: #e85d2f;
+  color: #e85d2f;
+}
 
 .search-results { display: flex; flex-direction: column; }
 .search-result-item {
@@ -1091,9 +1092,27 @@ body.home .topbar-logo-mobile {
   padding: 10px 8px;
   border-radius: 8px;
   transition: background 0.12s;
+  transform: translateZ(0);
 }
 .search-result-item:hover { background: var(--color-bg); }
 .search-result-item.soon { opacity: 0.45; pointer-events: none; }
+.search-result-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+.search-result-arrow {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  visibility: hidden;
+}
+.search-result-item:hover .search-result-arrow {
+  visibility: visible;
+}
 .search-result-cat {
   font-size: 11px;
   font-weight: 700;
@@ -1188,7 +1207,7 @@ body.home .history-panel.mobile-open {
 .category-tabs {
   grid-column: 1;
   position: sticky;
-  top: var(--topbar-height);
+  top: 0;
   align-self: start;
   z-index: 350;
   background: var(--color-surface);
@@ -1282,6 +1301,22 @@ body.home .cat-tabs-list { overflow: visible; }
   transition: color var(--transition), border-color var(--transition);
   font-family: var(--font-main);
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.cat-tab-chevron {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: #5a6378;
+  transition: transform 0.2s ease;
+}
+body.home .cat-tab-chevron {
+  color: rgba(255,255,255,0.4);
+}
+.cat-tab-wrap:hover .cat-tab-chevron {
+  transform: rotate(180deg);
 }
 .cat-tab:hover {
   color: var(--color-text);

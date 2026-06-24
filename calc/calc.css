@@ -686,9 +686,8 @@ select.field-input {
   flex: 1;
   color: #e85d2f;
   font-size: 12px;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 48px;
+  margin-left: max(48px, calc((100vw - 1400px) / 2 + 48px));
+  margin-right: max(48px, calc((100vw - 1400px) / 2 + 48px));
 }
 
 /* ─── 주입된 카테고리바: 홈과 동일 ─── */
