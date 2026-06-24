@@ -282,9 +282,7 @@ function buildCategoryDropdowns(container, root) {
       const savedWrap = savedTab.closest('.cat-tab-wrap');
       if (savedWrap) {
         savedWrap.classList.add('is-open');
-        const close = () => savedWrap.classList.remove('is-open');
-        setTimeout(close, 3000);
-        document.addEventListener('click', close, { once: true });
+        savedWrap.addEventListener('mouseleave', () => savedWrap.classList.remove('is-open'), { once: true });
       }
     }
   }
