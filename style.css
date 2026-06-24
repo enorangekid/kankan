@@ -2,6 +2,13 @@
    칸칸 — 스타일시트
    ───────────────────────────────────────── */
 
+/* 페이지 전환 페이드 */
+body { animation: pageFadeIn 0.15s ease; }
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 :root {
   --color-bg: #f8f9fb;
   --color-hover-bg: #e8f0fb;
