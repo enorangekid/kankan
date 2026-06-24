@@ -572,9 +572,10 @@ select.field-input {
 .tip-related-wrap .related-section {
   background: transparent;
   border: none;
+  border-top: 1px solid var(--color-border);
   border-radius: 0;
-  padding: 0;
-  margin: 0 20px 0;
+  padding: 16px 0 0;
+  margin: 16px 0 0;
 }
 
 .tip-title {
