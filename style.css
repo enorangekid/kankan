@@ -1254,11 +1254,15 @@ body.home .cat-tabs-list { overflow: visible; }
   transform: translateY(-6px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
 }
-.cat-tab-wrap:hover .cat-dropdown {
+.cat-tab-wrap:hover .cat-dropdown,
+.cat-tab-wrap.is-open .cat-dropdown {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
+}
+.cat-tab-wrap.is-open .cat-tab-chevron {
+  transform: rotate(180deg);
 }
 .cat-drop-item {
   display: block;

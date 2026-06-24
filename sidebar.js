@@ -230,15 +230,20 @@ function buildCategoryDropdowns(container, root) {
     const section = NAV_ITEMS.find(s => s.category === cat);
     if (!section) return;
 
-    const wrap = document.createElement('div');
-    wrap.className = 'cat-tab-wrap';
-    tab.parentNode.insertBefore(wrap, tab);
-    wrap.appendChild(tab);
-
-    const chevron = document.createElement('span');
-    chevron.className = 'cat-tab-chevron';
-    chevron.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
-    tab.appendChild(chevron);
+    // wrap·chevron은 정적 HTML에 이미 포함 — 없을 때만 생성
+    let wrap = tab.closest('.cat-tab-wrap');
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.className = 'cat-tab-wrap';
+      tab.parentNode.insertBefore(wrap, tab);
+      wrap.appendChild(tab);
+    }
+    if (!tab.querySelector('.cat-tab-chevron')) {
+      const chevron = document.createElement('span');
+      chevron.className = 'cat-tab-chevron';
+      chevron.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+      tab.appendChild(chevron);
+    }
 
     const dropdown = document.createElement('div');
     dropdown.className = 'cat-dropdown';
@@ -257,8 +262,32 @@ function buildCategoryDropdowns(container, root) {
         first = false;
       }
     }
+
+    // 드롭다운 링크 클릭 시 카테고리 저장 → 새 페이지에서 복원
+    dropdown.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        sessionStorage.setItem('kankan_open_cat', cat);
+      });
+    });
+
     wrap.appendChild(dropdown);
   });
+
+  // 이전 페이지에서 저장된 카테고리 드롭다운 복원
+  const savedCat = sessionStorage.getItem('kankan_open_cat');
+  if (savedCat) {
+    sessionStorage.removeItem('kankan_open_cat');
+    const savedTab = container.querySelector(`.cat-tab[data-cat="${savedCat}"]`);
+    if (savedTab) {
+      const savedWrap = savedTab.closest('.cat-tab-wrap');
+      if (savedWrap) {
+        savedWrap.classList.add('is-open');
+        const close = () => savedWrap.classList.remove('is-open');
+        setTimeout(close, 3000);
+        document.addEventListener('click', close, { once: true });
+      }
+    }
+  }
 }
 
 // ── 계산기 페이지 카테고리 네비바 초기화 (HTML은 각 페이지에 정적 포함) ──
