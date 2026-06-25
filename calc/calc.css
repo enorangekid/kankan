@@ -1358,6 +1358,7 @@ select.field-input {
   overflow-x: auto;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
+  background: var(--color-surface);
 }
 .tc-table {
   width: 100%;
@@ -1385,18 +1386,22 @@ select.field-input {
 }
 
 .tc-table tr.group-row td {
-  background: var(--color-bg);
+  background: #edf1f7;
   font-size: 12px;
   font-weight: 700;
   color: #555;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 11px 16px;
+  border-top: 2px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
+}
+.tc-table tr.group-row:first-child td {
+  border-top: none;
 }
 .tc-table tr.group-row td span {
   display: inline-block;
-  background: #05070b;
+  background: var(--color-accent);
   color: #fff;
   padding: 2px 8px;
   border-radius: 3px;
@@ -1407,6 +1412,9 @@ select.field-input {
 .tc-table tbody tr.data-row {
   border-bottom: 1px solid var(--color-border);
   transition: background var(--transition);
+}
+.tc-table tbody tr.data-row td {
+  background: var(--color-surface);
 }
 .tc-table tbody tr.data-row:last-child { border-bottom: none; }
 .tc-table tbody tr.data-row:hover td { background: #f1f5fb !important; }
@@ -1426,10 +1434,7 @@ select.field-input {
   min-width: 160px;
 }
 .tc-table td.col-sub {
-  font-size: 13px;
-  color: var(--color-text-muted);
-  padding-left: 28px;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .tc-table td.col-lambda {
