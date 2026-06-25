@@ -1,4 +1,4 @@
-﻿<script>if(!window.KankanRouter)location.replace('../index.html');</script>
+<script>if(!window.KankanRouter)location.replace('../index.html');</script>
 <main class="main-content">
   <style>
     /* ── 배송지 입력 ── */
@@ -550,12 +550,12 @@
             <h2 class="seo-title">배차 추천 계산 방식</h2>
             <p class="seo-body">단열재는 두께에 따라 1단에 묶이는 장수가 다릅니다. 포장 단수를 먼저 산출한 뒤, 차량별 적재함 바닥 칸 수와 적재 가능 단 수를 곱해 적재 한도를 계산합니다.</p>
             <div class="seo-formula">
-              <div class="seo-formula-label">포장 단수 계산</div>
+              <div class="seo-formula-label"><span class="badge-orange">포장 단수 계산</span></div>
               <div class="seo-formula-body">XPS: 두께별 고정 단수 (예: 50T = 10장/단, 100T = 4장/단)</div>
               <div class="seo-formula-body">EPS: 600 ÷ 두께(mm), 소수점 내림</div>
             </div>
             <div class="seo-formula" style="margin-top:10px;">
-              <div class="seo-formula-label">운임 계산</div>
+              <div class="seo-formula-label"><span class="badge-orange">운임 계산</span></div>
               <div class="seo-formula-body">직선거리(Haversine) × 1.35 = 추정 도로거리</div>
               <div class="seo-formula-body">추정 도로거리 + 차량 종류 → 거리 구간별 요금표 조회</div>
             </div>
