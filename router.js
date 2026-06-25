@@ -40,6 +40,7 @@
     if (pushState && target === resolvedUrl(location.href)) return;
 
     navigating = true;
+    scriptCache.clear(); // 매 이동마다 스크립트 재fetch
     try {
       const html = await fetchPage(target);
       if (!html) { location.href = url; return; }
@@ -49,7 +50,10 @@
       if (!newMain) { location.href = url; return; }
 
       // Swap <main> content
-      document.querySelector('main.main-content').innerHTML = newMain.innerHTML;
+      const mainEl = document.querySelector('main.main-content');
+      const clone = newMain.cloneNode(true);
+      clone.querySelectorAll('script').forEach(s => s.remove());
+      mainEl.innerHTML = clone.innerHTML;
 
       // Fix relative hrefs in injected content
       fixLinks(document.querySelector('main.main-content'), target);
@@ -129,11 +133,15 @@
     // Remove scripts injected by previous SPA navigation
     document.querySelectorAll('script[data-spa]').forEach(s => s.remove());
 
-    for (const script of doc.body.querySelectorAll('script')) {
+    for (const script of doc.querySelectorAll('script')) {
       const src = script.getAttribute('src');
 
       // Skip shell scripts
       if (src && SHELL_SCRIPTS.has(src.split('/').pop())) continue;
+
+      // Skip guard scripts
+      const inlineText = script.textContent.trim();
+      if (!src && inlineText.includes('KankanRouter') && inlineText.includes('location.replace')) continue;
 
       let text;
       if (src) {
@@ -170,7 +178,6 @@
   //      immediately (since DOMContentLoaded won't fire again in SPA context)
   function spaWrap(text) {
     return `;(function(){
-'use strict';
 var __dcl=[];
 var __origAEL=document.addEventListener.bind(document);
 document.addEventListener=function(type,fn,opts){

@@ -1,71 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>판상형 단열재 수량 계산기 — 칸칸</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
-  <link rel="stylesheet" href="../style.css" />
-  <link rel="stylesheet" href="calc.css" />
-</head>
-<body>
-
-  <!-- ── 상단 헤더 ── -->
-  <header class="topbar">
-    <button class="btn-hamburger" id="btnHamburger" aria-label="메뉴 열기">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
-    <span class="topbar-update">
-      <span class="topbar-label">UPDATE</span>
-      <span id="topbarNotice"></span>
-    </span>
-    <a href="../index.html" class="topbar-logo-mobile">KAN KAN</a>
-    <div class="topbar-right">
-      <button class="btn-dotmenu" id="btnDotMenu" aria-label="계산 내역">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/>
-        </svg>
-      </button>
-    </div>
-  </header>
-
-  <!-- 모바일 드로어 오버레이 -->
-  <div class="mobile-overlay" id="mobileOverlay"></div>
-
-  <div class="layout">    <!-- ── 카테고리 네비바 ── -->
-    <nav class="category-tabs" id="categoryTabs">
-      <a href="../index.html" class="topbar-logo-mobile">KAN KAN</a>
-      <div class="cat-tabs-list">
-        <div class="cat-tab-wrap"><button class="cat-tab" data-cat="단열/보온">단열/보온<span class="cat-tab-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button></div>
-        <div class="cat-tab-wrap"><button class="cat-tab" data-cat="목공/보드">목공/보드<span class="cat-tab-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button></div>
-        <div class="cat-tab-wrap"><button class="cat-tab" data-cat="마감/인테리어">마감/인테리어<span class="cat-tab-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button></div>
-        <div class="cat-tab-wrap"><button class="cat-tab" data-cat="시공 보조">시공 보조<span class="cat-tab-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button></div>
-        <div class="cat-tab-wrap"><button class="cat-tab" data-cat="참고 자료">참고 자료<span class="cat-tab-chevron"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span></button></div>
-      </div>
-      <div class="cat-actions">
-        <button class="cat-action-btn" id="btnCatSearch" aria-label="검색">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </button>
-        <button class="cat-action-btn" id="btnCatHistory" aria-label="계산 내역">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/>
-          </svg>
-        </button>
-      </div>
-    </nav>
-
-    <!-- ── 좌측 사이드바 (sidebar.js 에서 렌더링) ── -->
-    <aside class="sidebar" id="sidebar" data-root="../"></aside>
-
-    <!-- ── 메인 콘텐츠 ── -->
-    <main class="main-content">
+﻿<script>if(!window.KankanRouter)location.replace('../index.html');</script>
+<main class="main-content">
 
       <!-- 페이지 헤더 -->
       <div class="page-header">
@@ -378,20 +312,5 @@
         <p class="footer-copy">© 에너가드컴퍼니</p>
       </footer>
 
-    </main>
-
-    <!-- ── 우측 계산 내역 패널 ── -->
-    <aside class="history-panel" id="historyPanel">
-      <div class="history-header">계산한 내역</div>
-      <div class="history-list" id="historyList">
-        <div class="history-empty">아직 계산 내역이 없습니다.</div>
-      </div>
-    </aside>
-
-  </div>
-
-  <script src="../sidebar.js"></script>
-  <script src="../history.js"></script>
-  <script src="insulation-board.js"></script>
-</body>
-</html>
+      <script src="insulation-board.js"></script>
+</main>

@@ -31,20 +31,9 @@ const PATTERN_LABEL = {
 };
 
 // ── 차감 라디오 토글 ──
-const radios = document.querySelectorAll('input[name="hasDeduction"]');
-const deductionInputs = document.getElementById('deductionInputs');
+let radios;
+let deductionInputs;
 let deductCount = 0;
-
-radios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    if (radio.value === 'yes') {
-      deductionInputs.style.display = 'block';
-      if (deductCount === 0) addDeductCard();
-    } else {
-      deductionInputs.style.display = 'none';
-    }
-  });
-});
 
 // ── 차감 카드 생성 ──
 function addDeductCard() {
@@ -133,6 +122,18 @@ function renumberDeductCards() {
 
 // ── DOMContentLoaded ──
 document.addEventListener('DOMContentLoaded', () => {
+  radios = document.querySelectorAll('input[name="hasDeduction"]');
+  deductionInputs = document.getElementById('deductionInputs');
+  radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'yes') {
+        deductionInputs.style.display = 'block';
+        if (deductCount === 0) addDeductCard();
+      } else {
+        deductionInputs.style.display = 'none';
+      }
+    });
+  });
   document.getElementById('btnCalc').addEventListener('click', calculate);
   document.getElementById('btnReset').addEventListener('click', resetAll);
   document.getElementById('calcForm').addEventListener('keydown', e => {

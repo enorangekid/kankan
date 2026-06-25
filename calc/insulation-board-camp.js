@@ -4,8 +4,8 @@
 
 'use strict';
 
-const canvas = document.getElementById('campCanvas');
-const ctx    = canvas.getContext('2d');
+let canvas;
+let ctx;
 
 let currentMode = 'square';
 let currentDiagramData = null;
@@ -22,42 +22,6 @@ let zoom = 1, panX = 0, panY = 0;
 let isPanning = false, lastMX = 0, lastMY = 0;
 function resetView() { zoom = 1; panX = 0; panY = 0; }
 
-canvas.addEventListener('wheel', e => {
-  if (!currentDiagramData) return;
-  e.preventDefault();
-  const rect   = canvas.getBoundingClientRect();
-  const scaleX = canvas.width  / rect.width;
-  const scaleY = canvas.height / rect.height;
-  const mx = (e.clientX - rect.left) * scaleX - canvas.width  / 2;
-  const my = (e.clientY - rect.top)  * scaleY - canvas.height / 2;
-  const wx = (mx - panX) / zoom;
-  const wy = (my - panY) / zoom;
-  const factor = e.deltaY < 0 ? 1.1 : 0.9;
-  zoom = Math.max(0.4, Math.min(zoom * factor, 8));
-  panX = mx - wx * zoom;
-  panY = my - wy * zoom;
-  drawDiagram(currentDiagramData);
-}, { passive: false });
-
-canvas.addEventListener('mousedown', e => {
-  if (!currentDiagramData) return;
-  isPanning = true; lastMX = e.clientX; lastMY = e.clientY;
-  canvas.style.cursor = 'grabbing';
-});
-canvas.addEventListener('mousemove', e => {
-  if (!currentDiagramData) { canvas.style.cursor = 'default'; return; }
-  if (!isPanning) { canvas.style.cursor = 'grab'; return; }
-  const rect   = canvas.getBoundingClientRect();
-  const scaleX = canvas.width  / rect.width;
-  const scaleY = canvas.height / rect.height;
-  panX += (e.clientX - lastMX) * scaleX;
-  panY += (e.clientY - lastMY) * scaleY;
-  lastMX = e.clientX; lastMY = e.clientY;
-  drawDiagram(currentDiagramData);
-});
-canvas.addEventListener('mouseup',    () => { isPanning = false; if (currentDiagramData) canvas.style.cursor = 'grab'; });
-canvas.addEventListener('mouseleave', () => { isPanning = false; canvas.style.cursor = 'default'; });
-canvas.addEventListener('dblclick',   () => { if (!currentDiagramData) return; resetView(); drawDiagram(currentDiagramData); });
 
 // ── 단위 → m 변환 ──
 function toM(value, unit) {
@@ -466,6 +430,43 @@ function resetAll() {
 
 // ── DOMContentLoaded ──
 document.addEventListener('DOMContentLoaded', () => {
+  canvas = document.getElementById('campCanvas');
+  ctx    = canvas.getContext('2d');
+  canvas.addEventListener('wheel', e => {
+    if (!currentDiagramData) return;
+    e.preventDefault();
+    const rect   = canvas.getBoundingClientRect();
+    const scaleX = canvas.width  / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX - canvas.width  / 2;
+    const my = (e.clientY - rect.top)  * scaleY - canvas.height / 2;
+    const wx = (mx - panX) / zoom;
+    const wy = (my - panY) / zoom;
+    const factor = e.deltaY < 0 ? 1.1 : 0.9;
+    zoom = Math.max(0.4, Math.min(zoom * factor, 8));
+    panX = mx - wx * zoom;
+    panY = my - wy * zoom;
+    drawDiagram(currentDiagramData);
+  }, { passive: false });
+  canvas.addEventListener('mousedown', e => {
+    if (!currentDiagramData) return;
+    isPanning = true; lastMX = e.clientX; lastMY = e.clientY;
+    canvas.style.cursor = 'grabbing';
+  });
+  canvas.addEventListener('mousemove', e => {
+    if (!currentDiagramData) { canvas.style.cursor = 'default'; return; }
+    if (!isPanning) { canvas.style.cursor = 'grab'; return; }
+    const rect   = canvas.getBoundingClientRect();
+    const scaleX = canvas.width  / rect.width;
+    const scaleY = canvas.height / rect.height;
+    panX += (e.clientX - lastMX) * scaleX;
+    panY += (e.clientY - lastMY) * scaleY;
+    lastMX = e.clientX; lastMY = e.clientY;
+    drawDiagram(currentDiagramData);
+  });
+  canvas.addEventListener('mouseup',    () => { isPanning = false; if (currentDiagramData) canvas.style.cursor = 'grab'; });
+  canvas.addEventListener('mouseleave', () => { isPanning = false; canvas.style.cursor = 'default'; });
+  canvas.addEventListener('dblclick',   () => { if (!currentDiagramData) return; resetView(); drawDiagram(currentDiagramData); });
   initCustomSelect('shapeWrap',  'shapeBtn',  'shapeList',  'shapeType',  onShapeSelect);
   initCustomSelect('methodWrap', 'methodBtn', 'methodList', 'methodValue', () => {});
   updateMethodDropdown('square');

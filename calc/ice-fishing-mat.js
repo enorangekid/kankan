@@ -4,11 +4,6 @@
 
 'use strict';
 
-const canvas = document.getElementById('iceCanvas');
-const ctx    = canvas.getContext('2d');
-
-let currentPreset = null;
-
 // ── 규격별 고정 데이터 ──
 const PRESETS = {
   '1.8': {
@@ -122,295 +117,12 @@ const PRESETS = {
   },
 };
 
-// ── 도면 그리기 ──
-function drawDiagram(preset) {
-  const cw = canvas.width, ch = canvas.height;
-  ctx.clearRect(0, 0, cw, ch);
-  ctx.save();
-
-  const { w, h, matLayout, holes } = preset;
-  const pad = 120;
-  const scale = Math.min((cw - pad * 2) / w, (ch - pad * 2) / h);
-  const wPx = w * scale, hPx = h * scale;
-
-  // ── 칸칸 디자인 토큰 ──
-  const C_TEXT   = '#1a1a1a';
-  const C_MUTED  = '#888';
-  const C_BG     = '#f7f7f5';
-  const C_ACCENT = '#ff4040';
-  const mkMain = (sz, bold) => `${bold ? '700' : '500'} ${sz}px 'Pretendard Variable', Pretendard, sans-serif`;
-  const mkMono = (sz) => `500 ${sz}px 'JetBrains Mono', monospace`;
-
-  ctx.translate(cw / 2, ch / 2);
-  ctx.translate(panX, panY);
-  ctx.scale(zoom, zoom);
-
-  // 텐트 외곽
-  ctx.beginPath();
-  ctx.rect(-wPx / 2, -hPx / 2, wPx, hPx);
-  ctx.fillStyle = C_BG;
-  ctx.fill();
-  ctx.strokeStyle = C_TEXT;
-  ctx.lineWidth = 2.5;
-  ctx.stroke();
-
-  // 조각 배치
-  ctx.save();
-  ctx.clip();
-  matLayout.forEach((m, i) => {
-    const x  = -wPx / 2 + m.x * scale / 100;
-    const y  = -hPx / 2 + m.y * scale / 100;
-    const mw = m.w * scale / 100;
-    const mh = m.h * scale / 100;
-
-    ctx.beginPath();
-    ctx.rect(x, y, mw, mh);
-    ctx.strokeStyle = 'rgba(26, 26, 26, 0.2)';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    ctx.textAlign = 'center';
-    ctx.fillStyle = C_TEXT;
-    ctx.font = mkMain(Math.max(11, Math.round(mw * 0.28)), true);
-    ctx.fillText(`${i + 1}`, x + mw / 2, y + mh / 2 - 8);
-    ctx.fillStyle = C_MUTED;
-    ctx.font = mkMono(Math.max(9, Math.round(mw * 0.2)));
-    ctx.fillText(`${m.w}×${m.h}`, x + mw / 2, y + mh / 2 + 12);
-  });
-  ctx.restore();
-
-  // 얼음 구멍
-  const holeR = 0.075 * scale;
-  holes.forEach(hole => {
-    const hx = -wPx / 2 + hole.x * scale / 100;
-    const hy = -hPx / 2 + hole.y * scale / 100;
-    const lxPx = hole.lx * scale / 100;
-    const lyPx = hole.ly * scale / 100;
-
-    ctx.save();
-    ctx.setLineDash([5, 4]);
-    ctx.strokeStyle = 'rgba(255, 64, 64, 0.6)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(hx, hy); ctx.lineTo(hx - lxPx, hy);
-    ctx.moveTo(hx, hy); ctx.lineTo(hx, hy - lyPx);
-    ctx.stroke();
-
-    ctx.setLineDash([]);
-    ctx.fillStyle = C_ACCENT;
-    ctx.font = mkMono(11);
-    ctx.textAlign = 'center';
-    ctx.fillText(`${hole.lx}cm`, hx - lxPx / 2, hy - 6);
-    ctx.save();
-    ctx.translate(hx - 8, hy - lyPx / 2);
-    ctx.rotate(-Math.PI / 2);
-    ctx.fillText(`${hole.ly}cm`, 0, 0);
-    ctx.restore();
-
-    // 구멍 원
-    ctx.beginPath();
-    ctx.arc(hx, hy, holeR, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255,255,255,0.3)';
-    ctx.fill();
-    ctx.strokeStyle = C_ACCENT;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = C_ACCENT;
-    ctx.font = mkMain(10, true);
-    ctx.textAlign = 'center';
-    ctx.fillText('지름 15cm', hx, hy + holeR + 13);
-    ctx.restore();
-  });
-
-  // 모서리 컷팅 (10cm)
-  const cutPx = 0.10 * scale;
-  const corners = [
-    {x: -wPx/2, y: -hPx/2, dx:  1, dy:  1},
-    {x:  wPx/2, y: -hPx/2, dx: -1, dy:  1},
-    {x: -wPx/2, y:  hPx/2, dx:  1, dy: -1},
-    {x:  wPx/2, y:  hPx/2, dx: -1, dy: -1},
-  ];
-  ctx.save();
-  corners.forEach(cp => {
-    ctx.fillStyle = C_ACCENT;
-    ctx.beginPath();
-    ctx.moveTo(cp.x, cp.y);
-    ctx.lineTo(cp.x + cutPx * cp.dx, cp.y);
-    ctx.lineTo(cp.x, cp.y + cutPx * cp.dy);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.setLineDash([3, 3]);
-    ctx.strokeStyle = C_MUTED;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(cp.x + cutPx * cp.dx, cp.y);
-    ctx.lineTo(cp.x, cp.y);
-    ctx.lineTo(cp.x, cp.y + cutPx * cp.dy);
-    ctx.stroke();
-
-    ctx.setLineDash([]);
-    ctx.fillStyle = C_MUTED;
-    ctx.font = mkMono(10);
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('10cm', cp.x + cutPx * cp.dx / 2, cp.y - 13 * cp.dy);
-    ctx.fillText('10cm', cp.x - 22 * cp.dx,        cp.y + cutPx * cp.dy / 2);
-  });
-  ctx.restore();
-
-  // 치수선
-  ctx.save();
-  ctx.strokeStyle = C_MUTED;
-  ctx.lineWidth = 1.5;
-  ctx.fillStyle = C_TEXT;
-  ctx.font = mkMono(13);
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-
-  // 가로 치수
-  const dimYTop = -hPx / 2 - 48;
-  ctx.beginPath();
-  ctx.moveTo(-wPx / 2, dimYTop); ctx.lineTo(wPx / 2, dimYTop);
-  ctx.stroke();
-  [[- wPx / 2, dimYTop], [wPx / 2, dimYTop]].forEach(([px, py]) => {
-    ctx.beginPath();
-    ctx.moveTo(px, py - 6); ctx.lineTo(px, py + 6);
-    ctx.stroke();
-  });
-  ctx.fillText(`가로 ${Math.round(w * 100)}cm`, 0, dimYTop - 12);
-
-  // 세로 치수
-  const dimXLeft = -wPx / 2 - 52;
-  ctx.beginPath();
-  ctx.moveTo(dimXLeft, -hPx / 2); ctx.lineTo(dimXLeft, hPx / 2);
-  ctx.stroke();
-  [[-hPx / 2], [hPx / 2]].forEach(([py]) => {
-    ctx.beginPath();
-    ctx.moveTo(dimXLeft - 6, py); ctx.lineTo(dimXLeft + 6, py);
-    ctx.stroke();
-  });
-  ctx.save();
-  ctx.translate(dimXLeft - 14, 0);
-  ctx.rotate(-Math.PI / 2);
-  ctx.fillText(`세로 ${Math.round(h * 100)}cm`, 0, 0);
-  ctx.restore();
-
-  ctx.restore();
-  ctx.restore();
-
-  // 조작 힌트 (화면 좌표 고정, 줌/팬 영향 없음)
-  ctx.save();
-  ctx.font = "400 11px 'Pretendard Variable', Pretendard, sans-serif";
-  ctx.fillStyle = 'rgba(136, 136, 136, 0.75)';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'bottom';
-  ctx.fillText('휠 확대·축소  ·  드래그 이동  ·  더블클릭 초기화', cw / 2, ch - 8);
-  ctx.restore();
-}
-
-// ── 휠 줌 / 드래그 팬 ──
+// ── 상태 변수 ──
+let currentPreset = null;
 let zoom = 1, panX = 0, panY = 0;
 let isPanning = false, lastMX = 0, lastMY = 0;
 
 function resetView() { zoom = 1; panX = 0; panY = 0; }
-
-canvas.addEventListener('wheel', e => {
-  if (!currentPreset) return;
-  e.preventDefault();
-  const rect   = canvas.getBoundingClientRect();
-  const scaleX = canvas.width  / rect.width;
-  const scaleY = canvas.height / rect.height;
-  const mx = (e.clientX - rect.left) * scaleX - canvas.width  / 2;
-  const my = (e.clientY - rect.top)  * scaleY - canvas.height / 2;
-  const wx = (mx - panX) / zoom;
-  const wy = (my - panY) / zoom;
-  const factor = e.deltaY < 0 ? 1.1 : 0.9;
-  zoom = Math.max(0.4, Math.min(zoom * factor, 8));
-  panX = mx - wx * zoom;
-  panY = my - wy * zoom;
-  drawDiagram(currentPreset);
-}, { passive: false });
-
-canvas.addEventListener('mousedown', e => {
-  if (!currentPreset) return;
-  isPanning = true;
-  lastMX = e.clientX; lastMY = e.clientY;
-  canvas.style.cursor = 'grabbing';
-});
-
-canvas.addEventListener('mousemove', e => {
-  if (!currentPreset) { canvas.style.cursor = 'default'; return; }
-  if (!isPanning) { canvas.style.cursor = 'grab'; return; }
-  const rect   = canvas.getBoundingClientRect();
-  const scaleX = canvas.width  / rect.width;
-  const scaleY = canvas.height / rect.height;
-  panX += (e.clientX - lastMX) * scaleX;
-  panY += (e.clientY - lastMY) * scaleY;
-  lastMX = e.clientX; lastMY = e.clientY;
-  drawDiagram(currentPreset);
-});
-
-canvas.addEventListener('mouseup',    () => { isPanning = false; if (currentPreset) canvas.style.cursor = 'grab'; });
-canvas.addEventListener('mouseleave', () => { isPanning = false; canvas.style.cursor = 'default'; });
-canvas.addEventListener('dblclick',   () => { if (!currentPreset) return; resetView(); drawDiagram(currentPreset); });
-
-// ── 계산하기 ──
-function calculate() {
-  const size = document.getElementById('sizeValue').value;
-  if (!size) { alert('텐트 규격을 선택해주세요.'); return; }
-
-  const preset = PRESETS[size];
-  if (!preset) return;
-  currentPreset = preset;
-  resetView();
-
-  // 결과 채우기
-  document.getElementById('resMainNum').textContent  = preset.matM;
-  document.getElementById('resMainSub').textContent  = `${preset.label} 기준 열반사단열재`;
-  document.getElementById('resMainDesc').textContent = `폭 1M 기준 ${preset.matM}M`;
-  document.getElementById('resIsoPink').textContent  = `${preset.isoPink}장`;
-  document.getElementById('resTape').textContent     = `${preset.tape}개`;
-
-  document.getElementById('resultNote').innerHTML =
-    `※ 예시 도면입니다. 얼음 구멍 위치와 조각 배치는 현장에 맞게 조정하세요.<br>` +
-    `※ 모서리 컷팅(파란 삼각형)은 텐트 뼈대 간섭 방지를 위한 권장 사항입니다.`;
-
-  drawDiagram(preset);
-
-  const panel = document.getElementById('resultPanel');
-  panel.style.display = 'block';
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-  addHistory(preset.label, preset.matM, preset.isoPink, preset.tape);
-}
-
-// ── 초기화 ──
-function resetAll() {
-  // 규격 드롭다운 리셋
-  document.getElementById('sizeBtnText').textContent = '규격을 선택하세요';
-  document.getElementById('sizeValue').value = '';
-  document.querySelectorAll('#sizeList .custom-select-item').forEach(i => i.classList.remove('active'));
-
-  currentPreset = null;
-  resetView();
-  document.getElementById('resultPanel').style.display = 'none';
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-// ── 도면 저장 ──
-document.getElementById('btnSaveImg').addEventListener('click', () => {
-  const tmp = document.createElement('canvas');
-  tmp.width = canvas.width; tmp.height = canvas.height;
-  const tc = tmp.getContext('2d');
-  tc.fillStyle = '#fff';
-  tc.fillRect(0, 0, tmp.width, tmp.height);
-  tc.drawImage(canvas, 0, 0);
-  const link = document.createElement('a');
-  link.download = `칸칸_빙어매트_${new Date().toISOString().slice(0, 10)}.png`;
-  link.href = tmp.toDataURL('image/png');
-  link.click();
-});
 
 // ── 히스토리 ──
 function addHistory(label, matM, isoPink, tape) {
@@ -435,6 +147,293 @@ function addHistory(label, matM, isoPink, tape) {
 
 // ── DOMContentLoaded ──
 document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('iceCanvas');
+  const ctx    = canvas.getContext('2d');
+
+  // ── 도면 그리기 ──
+  function drawDiagram(preset) {
+    const cw = canvas.width, ch = canvas.height;
+    ctx.clearRect(0, 0, cw, ch);
+    ctx.save();
+
+    const { w, h, matLayout, holes } = preset;
+    const pad = 120;
+    const scale = Math.min((cw - pad * 2) / w, (ch - pad * 2) / h);
+    const wPx = w * scale, hPx = h * scale;
+
+    // ── 칸칸 디자인 토큰 ──
+    const C_TEXT   = '#1a1a1a';
+    const C_MUTED  = '#888';
+    const C_BG     = '#f7f7f5';
+    const C_ACCENT = '#ff4040';
+    const mkMain = (sz, bold) => `${bold ? '700' : '500'} ${sz}px 'Pretendard Variable', Pretendard, sans-serif`;
+    const mkMono = (sz) => `500 ${sz}px 'JetBrains Mono', monospace`;
+
+    ctx.translate(cw / 2, ch / 2);
+    ctx.translate(panX, panY);
+    ctx.scale(zoom, zoom);
+
+    // 텐트 외곽
+    ctx.beginPath();
+    ctx.rect(-wPx / 2, -hPx / 2, wPx, hPx);
+    ctx.fillStyle = C_BG;
+    ctx.fill();
+    ctx.strokeStyle = C_TEXT;
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // 조각 배치
+    ctx.save();
+    ctx.clip();
+    matLayout.forEach((m, i) => {
+      const x  = -wPx / 2 + m.x * scale / 100;
+      const y  = -hPx / 2 + m.y * scale / 100;
+      const mw = m.w * scale / 100;
+      const mh = m.h * scale / 100;
+
+      ctx.beginPath();
+      ctx.rect(x, y, mw, mh);
+      ctx.strokeStyle = 'rgba(26, 26, 26, 0.2)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = C_TEXT;
+      ctx.font = mkMain(Math.max(11, Math.round(mw * 0.28)), true);
+      ctx.fillText(`${i + 1}`, x + mw / 2, y + mh / 2 - 8);
+      ctx.fillStyle = C_MUTED;
+      ctx.font = mkMono(Math.max(9, Math.round(mw * 0.2)));
+      ctx.fillText(`${m.w}×${m.h}`, x + mw / 2, y + mh / 2 + 12);
+    });
+    ctx.restore();
+
+    // 얼음 구멍
+    const holeR = 0.075 * scale;
+    holes.forEach(hole => {
+      const hx = -wPx / 2 + hole.x * scale / 100;
+      const hy = -hPx / 2 + hole.y * scale / 100;
+      const lxPx = hole.lx * scale / 100;
+      const lyPx = hole.ly * scale / 100;
+
+      ctx.save();
+      ctx.setLineDash([5, 4]);
+      ctx.strokeStyle = 'rgba(255, 64, 64, 0.6)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(hx, hy); ctx.lineTo(hx - lxPx, hy);
+      ctx.moveTo(hx, hy); ctx.lineTo(hx, hy - lyPx);
+      ctx.stroke();
+
+      ctx.setLineDash([]);
+      ctx.fillStyle = C_ACCENT;
+      ctx.font = mkMono(11);
+      ctx.textAlign = 'center';
+      ctx.fillText(`${hole.lx}cm`, hx - lxPx / 2, hy - 6);
+      ctx.save();
+      ctx.translate(hx - 8, hy - lyPx / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText(`${hole.ly}cm`, 0, 0);
+      ctx.restore();
+
+      // 구멍 원
+      ctx.beginPath();
+      ctx.arc(hx, hy, holeR, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.fill();
+      ctx.strokeStyle = C_ACCENT;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = C_ACCENT;
+      ctx.font = mkMain(10, true);
+      ctx.textAlign = 'center';
+      ctx.fillText('지름 15cm', hx, hy + holeR + 13);
+      ctx.restore();
+    });
+
+    // 모서리 컷팅 (10cm)
+    const cutPx = 0.10 * scale;
+    const corners = [
+      {x: -wPx/2, y: -hPx/2, dx:  1, dy:  1},
+      {x:  wPx/2, y: -hPx/2, dx: -1, dy:  1},
+      {x: -wPx/2, y:  hPx/2, dx:  1, dy: -1},
+      {x:  wPx/2, y:  hPx/2, dx: -1, dy: -1},
+    ];
+    ctx.save();
+    corners.forEach(cp => {
+      ctx.fillStyle = C_ACCENT;
+      ctx.beginPath();
+      ctx.moveTo(cp.x, cp.y);
+      ctx.lineTo(cp.x + cutPx * cp.dx, cp.y);
+      ctx.lineTo(cp.x, cp.y + cutPx * cp.dy);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.setLineDash([3, 3]);
+      ctx.strokeStyle = C_MUTED;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(cp.x + cutPx * cp.dx, cp.y);
+      ctx.lineTo(cp.x, cp.y);
+      ctx.lineTo(cp.x, cp.y + cutPx * cp.dy);
+      ctx.stroke();
+
+      ctx.setLineDash([]);
+      ctx.fillStyle = C_MUTED;
+      ctx.font = mkMono(10);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('10cm', cp.x + cutPx * cp.dx / 2, cp.y - 13 * cp.dy);
+      ctx.fillText('10cm', cp.x - 22 * cp.dx,        cp.y + cutPx * cp.dy / 2);
+    });
+    ctx.restore();
+
+    // 치수선
+    ctx.save();
+    ctx.strokeStyle = C_MUTED;
+    ctx.lineWidth = 1.5;
+    ctx.fillStyle = C_TEXT;
+    ctx.font = mkMono(13);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // 가로 치수
+    const dimYTop = -hPx / 2 - 48;
+    ctx.beginPath();
+    ctx.moveTo(-wPx / 2, dimYTop); ctx.lineTo(wPx / 2, dimYTop);
+    ctx.stroke();
+    [[- wPx / 2, dimYTop], [wPx / 2, dimYTop]].forEach(([px, py]) => {
+      ctx.beginPath();
+      ctx.moveTo(px, py - 6); ctx.lineTo(px, py + 6);
+      ctx.stroke();
+    });
+    ctx.fillText(`가로 ${Math.round(w * 100)}cm`, 0, dimYTop - 12);
+
+    // 세로 치수
+    const dimXLeft = -wPx / 2 - 52;
+    ctx.beginPath();
+    ctx.moveTo(dimXLeft, -hPx / 2); ctx.lineTo(dimXLeft, hPx / 2);
+    ctx.stroke();
+    [[-hPx / 2], [hPx / 2]].forEach(([py]) => {
+      ctx.beginPath();
+      ctx.moveTo(dimXLeft - 6, py); ctx.lineTo(dimXLeft + 6, py);
+      ctx.stroke();
+    });
+    ctx.save();
+    ctx.translate(dimXLeft - 14, 0);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText(`세로 ${Math.round(h * 100)}cm`, 0, 0);
+    ctx.restore();
+
+    ctx.restore();
+    ctx.restore();
+
+    // 조작 힌트 (화면 좌표 고정, 줌/팬 영향 없음)
+    ctx.save();
+    ctx.font = "400 11px 'Pretendard Variable', Pretendard, sans-serif";
+    ctx.fillStyle = 'rgba(136, 136, 136, 0.75)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText('휠 확대·축소  ·  드래그 이동  ·  더블클릭 초기화', cw / 2, ch - 8);
+    ctx.restore();
+  }
+
+  // ── 휠 줌 / 드래그 팬 ──
+  canvas.addEventListener('wheel', e => {
+    if (!currentPreset) return;
+    e.preventDefault();
+    const rect   = canvas.getBoundingClientRect();
+    const scaleX = canvas.width  / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX - canvas.width  / 2;
+    const my = (e.clientY - rect.top)  * scaleY - canvas.height / 2;
+    const wx = (mx - panX) / zoom;
+    const wy = (my - panY) / zoom;
+    const factor = e.deltaY < 0 ? 1.1 : 0.9;
+    zoom = Math.max(0.4, Math.min(zoom * factor, 8));
+    panX = mx - wx * zoom;
+    panY = my - wy * zoom;
+    drawDiagram(currentPreset);
+  }, { passive: false });
+
+  canvas.addEventListener('mousedown', e => {
+    if (!currentPreset) return;
+    isPanning = true;
+    lastMX = e.clientX; lastMY = e.clientY;
+    canvas.style.cursor = 'grabbing';
+  });
+
+  canvas.addEventListener('mousemove', e => {
+    if (!currentPreset) { canvas.style.cursor = 'default'; return; }
+    if (!isPanning) { canvas.style.cursor = 'grab'; return; }
+    const rect   = canvas.getBoundingClientRect();
+    const scaleX = canvas.width  / rect.width;
+    const scaleY = canvas.height / rect.height;
+    panX += (e.clientX - lastMX) * scaleX;
+    panY += (e.clientY - lastMY) * scaleY;
+    lastMX = e.clientX; lastMY = e.clientY;
+    drawDiagram(currentPreset);
+  });
+
+  canvas.addEventListener('mouseup',    () => { isPanning = false; if (currentPreset) canvas.style.cursor = 'grab'; });
+  canvas.addEventListener('mouseleave', () => { isPanning = false; canvas.style.cursor = 'default'; });
+  canvas.addEventListener('dblclick',   () => { if (!currentPreset) return; resetView(); drawDiagram(currentPreset); });
+
+  // ── 계산하기 ──
+  function calculate() {
+    const size = document.getElementById('sizeValue').value;
+    if (!size) { alert('텐트 규격을 선택해주세요.'); return; }
+
+    const preset = PRESETS[size];
+    if (!preset) return;
+    currentPreset = preset;
+    resetView();
+
+    // 결과 채우기
+    document.getElementById('resMainNum').textContent  = preset.matM;
+    document.getElementById('resMainSub').textContent  = `${preset.label} 기준 열반사단열재`;
+    document.getElementById('resMainDesc').textContent = `폭 1M 기준 ${preset.matM}M`;
+    document.getElementById('resIsoPink').textContent  = `${preset.isoPink}장`;
+    document.getElementById('resTape').textContent     = `${preset.tape}개`;
+
+    document.getElementById('resultNote').innerHTML =
+      `※ 예시 도면입니다. 얼음 구멍 위치와 조각 배치는 현장에 맞게 조정하세요.<br>` +
+      `※ 모서리 컷팅(파란 삼각형)은 텐트 뼈대 간섭 방지를 위한 권장 사항입니다.`;
+
+    drawDiagram(preset);
+
+    const panel = document.getElementById('resultPanel');
+    panel.style.display = 'block';
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    addHistory(preset.label, preset.matM, preset.isoPink, preset.tape);
+  }
+
+  // ── 초기화 ──
+  function resetAll() {
+    document.getElementById('sizeBtnText').textContent = '규격을 선택하세요';
+    document.getElementById('sizeValue').value = '';
+    document.querySelectorAll('#sizeList .custom-select-item').forEach(i => i.classList.remove('active'));
+
+    currentPreset = null;
+    resetView();
+    document.getElementById('resultPanel').style.display = 'none';
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // ── 도면 저장 ──
+  document.getElementById('btnSaveImg').addEventListener('click', () => {
+    const tmp = document.createElement('canvas');
+    tmp.width = canvas.width; tmp.height = canvas.height;
+    const tc = tmp.getContext('2d');
+    tc.fillStyle = '#fff';
+    tc.fillRect(0, 0, tmp.width, tmp.height);
+    tc.drawImage(canvas, 0, 0);
+    const link = document.createElement('a');
+    link.download = `칸칸_빙어매트_${new Date().toISOString().slice(0, 10)}.png`;
+    link.href = tmp.toDataURL('image/png');
+    link.click();
+  });
+
   initCustomSelect('shapeWrap', 'shapeBtn', 'shapeList', 'shapeType', () => {});
   initCustomSelect('sizeWrap',  'sizeBtn',  'sizeList',  'sizeValue', () => {});
 

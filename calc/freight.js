@@ -214,6 +214,14 @@ function showResult(vehicle, totalBundles, bundleHeightMm, detailText, volume, t
 
 // ── Top View / Side View ──
 function drawVisualization(vInfo, totalBundles, bundleHeightMm) {
+  const wrap = document.querySelector('.truck-topview-wrap');
+  if (!wrap) return;
+  let containerWidth = wrap.clientWidth - 80;
+  if (containerWidth <= 0) {
+    setTimeout(() => drawVisualization(vInfo, totalBundles, bundleHeightMm), 50);
+    return;
+  }
+
   const slotW = 900, slotL = 1800;
   const singleBoxW = slotL, doubleBoxW = slotW;
   const singleRowH = slotW, doubleRowH = slotL;
@@ -236,7 +244,6 @@ function drawVisualization(vInfo, totalBundles, bundleHeightMm) {
 
   document.getElementById('topViewLabel').textContent = '900×1800mm 기준';
 
-  const containerWidth = document.querySelector('.truck-topview-wrap').clientWidth - 80;
   let fitScale = containerWidth / vInfo.width;
   if (fitScale > 0.12) fitScale = 0.12;
 
@@ -593,6 +600,17 @@ function resetAll() {
 // ── DOMContentLoaded ──
 document.addEventListener('DOMContentLoaded', () => {
   initCustomSelect('materialWrap', 'materialBtn', 'materialList', 'materialType', onMaterialSelect);
-  initCustomSelect('factoryWrap',  'factoryBtn',  'factoryList',  'factoryValue',  onFactorySelect);
+  initCustomSelect('factoryWrap',  'factoryBtn',  'factoryList',  'factoryValue', onFactorySelect);
   buildRefTable();
+
+  document.getElementById('thickness').addEventListener('input', handleInputChange);
+  document.getElementById('destAddrInput').addEventListener('click', toggleAddrSearch);
+  document.getElementById('addrClearBtn').addEventListener('click', clearAddr);
+  document.getElementById('addrKeywordInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') confirmAddr();
+  });
+  document.getElementById('addrConfirmBtn').addEventListener('click', confirmAddr);
+  document.getElementById('btnCalc').addEventListener('click', calculate);
+  document.getElementById('btnReset').addEventListener('click', resetAll);
+  document.getElementById('rateToggleBtn').addEventListener('click', toggleRateTable);
 });

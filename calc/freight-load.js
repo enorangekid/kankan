@@ -74,7 +74,7 @@ function renderResult(spec) {
 
   const vis = document.getElementById('visualSection');
   vis.style.display = 'flex';
-  drawVisualization(spec, totalBundles, bundleHeightMm);
+  setTimeout(() => { drawVisualization(spec, totalBundles, bundleHeightMm); }, 100);
 
   addHistory(spec.name, totalBundles, repThickness, bundleHeightMm);
   setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
@@ -82,6 +82,14 @@ function renderResult(spec) {
 
 // ── Top View / Side View ──
 function drawVisualization(vInfo, totalBundles, bundleHeightMm) {
+  const wrap = document.querySelector('.truck-topview-wrap');
+  if (!wrap) return;
+  let containerWidth = wrap.clientWidth - 80;
+  if (containerWidth <= 0) {
+    setTimeout(() => drawVisualization(vInfo, totalBundles, bundleHeightMm), 50);
+    return;
+  }
+
   const slotW = 900, slotL = 1800;
   const singleBoxW = slotL, doubleBoxW = slotW;
   const singleRowH = slotW, doubleRowH = slotL;
@@ -104,7 +112,6 @@ function drawVisualization(vInfo, totalBundles, bundleHeightMm) {
 
   document.getElementById('topViewLabel').textContent = '900×1800mm 기준';
 
-  const containerWidth = document.querySelector('.truck-topview-wrap').clientWidth - 80;
   let fitScale = containerWidth / vInfo.width;
   if (fitScale > 0.12) fitScale = 0.12;
 

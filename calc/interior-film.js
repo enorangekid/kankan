@@ -32,13 +32,8 @@ const FILM_DEFAULT_LOSS = {
 };
 
 // ── 필름 종류 변경 시 할증률 자동 변경 ──
-const filmTypeEl  = document.getElementById('filmType');
-const lossRateEl  = document.getElementById('lossRate');
-
-filmTypeEl.addEventListener('change', () => {
-  const type = filmTypeEl.value;
-  lossRateEl.value = FILM_DEFAULT_LOSS[type] || 15;
-});
+let filmTypeEl;
+let lossRateEl;
 
 // ── 계산하기 ──
 function calculate() {
@@ -147,6 +142,12 @@ function addHistory(length, netArea, stripCount, lossRate, filmLabel) {
 
 // ── DOMContentLoaded ──
 document.addEventListener('DOMContentLoaded', () => {
+  filmTypeEl = document.getElementById('filmType');
+  lossRateEl = document.getElementById('lossRate');
+  filmTypeEl.addEventListener('change', () => {
+    const type = filmTypeEl.value;
+    lossRateEl.value = FILM_DEFAULT_LOSS[type] || 15;
+  });
   document.getElementById('btnCalc').addEventListener('click', calculate);
   document.getElementById('btnReset').addEventListener('click', resetAll);
   document.getElementById('calcForm').addEventListener('keydown', e => {
