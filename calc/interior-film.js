@@ -5,6 +5,9 @@
 
 'use strict';
 
+let filmTypeEl;
+let lossRateEl;
+
 // ── 단위 → mm 변환 ──
 function toMm(value, unit) {
   const v = parseFloat(value) || 0;
@@ -30,10 +33,6 @@ const FILM_DEFAULT_LOSS = {
   wood:   25,
   metal:  25,
 };
-
-// ── 필름 종류 변경 시 할증률 자동 변경 ──
-let filmTypeEl;
-let lossRateEl;
 
 // ── 계산하기 ──
 function calculate() {

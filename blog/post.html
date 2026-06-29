@@ -1,0 +1,90 @@
+<script>if(!window.KankanRouter)location.replace('../index.html');</script>
+<main class="main-content">
+
+  <!-- 포스트 헤더 -->
+  <div class="blog-post-header">
+    <nav class="blog-post-breadcrumb">
+      <a href="../index.html">홈</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="../blog.html">블로그</a>
+      <span class="breadcrumb-sep">›</span>
+      <span id="breadcrumbTitle">로딩 중...</span>
+    </nav>
+    <div class="blog-post-tag" id="postTag"></div>
+    <h1 class="blog-post-title" id="postTitle">로딩 중...</h1>
+
+    <!-- 에디터 + 날짜 -->
+    <div class="blog-post-author-row" id="postAuthorRow" style="display:none">
+      <div class="blog-post-author">
+        <div class="blog-author-avatar" id="postAuthorAvatar"></div>
+        <div class="blog-author-info">
+          <span class="blog-author-name" id="postAuthorName"></span>
+          <span class="blog-author-role" id="postAuthorRole"></span>
+        </div>
+      </div>
+      <div class="blog-post-meta">
+        <span id="postDate"></span>
+        <span id="postReadTimeSep" style="display:none">·</span>
+        <span id="postReadTime"></span>
+      </div>
+    </div>
+    <!-- 에디터 없을 때 날짜만 -->
+    <div class="blog-post-meta blog-post-meta--solo" id="postMetaSolo">
+      <span id="postDateSolo"></span>
+      <span id="postReadTimeSepSolo" style="display:none">·</span>
+      <span id="postReadTimeSolo"></span>
+    </div>
+  </div>
+
+  <!-- 대표 이미지 16:9 -->
+  <div class="blog-post-hero" id="postHeroImage" style="display:none"></div>
+
+  <!-- 본문 래퍼 -->
+  <div class="blog-post-wrap">
+
+    <!-- 요약 카드 -->
+    <div class="blog-summary-card" id="postSummary" style="display:none">
+      <ul id="postSummaryList"></ul>
+    </div>
+
+    <!-- 본문 -->
+    <div class="blog-post-body" id="postBody">
+      <div class="blog-post-loading">포스트를 불러오는 중입니다...</div>
+    </div>
+
+    <!-- FAQ -->
+    <div id="postFaq"></div>
+
+    <!-- 도움됐어요 / 공유하기 -->
+    <div id="postActions"></div>
+
+    <!-- 태그 -->
+    <div class="blog-post-tags" id="postTags"></div>
+
+  </div>
+
+  <!-- 관련 계산기 -->
+  <div class="blog-related-calcs" id="relatedCalcs" style="display:none">
+    <div class="blog-related-calcs-title">이런 계산기는 어때요?</div>
+    <div class="blog-related-calc-tags" id="relatedCalcTags"></div>
+  </div>
+
+  <!-- 관련 포스트 -->
+  <div class="blog-related-posts">
+    <div class="blog-related-posts-title">관련 글</div>
+    <div class="blog-related-grid" id="relatedPostsGrid"></div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="#">개인정보처리방침</a>
+      <a href="#">이용약관</a>
+      <a href="#">문의하기</a>
+    </div>
+    <p class="footer-copy">© 에너가드컴퍼니</p>
+  </footer>
+
+  <script src="../blog-data.js"></script>
+  <script src="blog-post.js"></script>
+
+</main>

@@ -120,31 +120,6 @@ function renumberDeductCards() {
   });
 }
 
-// ── DOMContentLoaded ──
-document.addEventListener('DOMContentLoaded', () => {
-  radios = document.querySelectorAll('input[name="hasDeduction"]');
-  deductionInputs = document.getElementById('deductionInputs');
-  radios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (radio.value === 'yes') {
-        deductionInputs.style.display = 'block';
-        if (deductCount === 0) addDeductCard();
-      } else {
-        deductionInputs.style.display = 'none';
-      }
-    });
-  });
-  document.getElementById('btnCalc').addEventListener('click', calculate);
-  document.getElementById('btnReset').addEventListener('click', resetAll);
-  document.getElementById('calcForm').addEventListener('keydown', e => {
-    if (e.key === 'Enter') calculate();
-  });
-
-  KankanHistory.restoreForm();
-  KankanHistory.renderPanel();
-  KankanHistory.renderClearBtn();
-});
-
 // ── 계산하기 ──
 
 function calculate() {
@@ -265,3 +240,28 @@ function addHistory(length, netArea, lossRate, patternLabel) {
   });
   KankanHistory.renderPanel();
 }
+
+// ── DOMContentLoaded ──
+document.addEventListener('DOMContentLoaded', () => {
+  radios = document.querySelectorAll('input[name="hasDeduction"]');
+  deductionInputs = document.getElementById('deductionInputs');
+  radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'yes') {
+        deductionInputs.style.display = 'block';
+        if (deductCount === 0) addDeductCard();
+      } else {
+        deductionInputs.style.display = 'none';
+      }
+    });
+  });
+  document.getElementById('btnCalc').addEventListener('click', calculate);
+  document.getElementById('btnReset').addEventListener('click', resetAll);
+  document.getElementById('calcForm').addEventListener('keydown', e => {
+    if (e.key === 'Enter') calculate();
+  });
+
+  KankanHistory.restoreForm();
+  KankanHistory.renderPanel();
+  KankanHistory.renderClearBtn();
+});

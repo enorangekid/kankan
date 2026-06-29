@@ -955,7 +955,7 @@ body.home .category-tabs {
   margin: 0;
   padding: 0 max(48px, calc((100vw - 1400px) / 2 + 48px));
   background: #05070b;
-  border-top: 1px solid rgba(232,93,47,0.35);
+  border-top: none;
   border-bottom: none;
 }
 body.home .cat-tab {
@@ -974,7 +974,7 @@ body.home .cat-tab:hover {
 }
 body.home .cat-tab.active {
   color: #ffffff;
-  border-bottom-color: #e85d2f;
+  border-bottom-color: transparent;
 }
 
 /* 카테고리바 내 로고 */
@@ -1338,7 +1338,7 @@ body.home .cat-tab-chevron {
 }
 .cat-tab.active {
   color: #05070b;
-  border-bottom-color: #e85d2f;
+  border-bottom-color: transparent;
 }
 
 .tab-search {

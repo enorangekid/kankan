@@ -135,9 +135,13 @@
 
     for (const script of doc.querySelectorAll('script')) {
       const src = script.getAttribute('src');
+      console.log('[Router] script 발견:', src);
 
       // Skip shell scripts
-      if (src && SHELL_SCRIPTS.has(src.split('/').pop())) continue;
+      if (src && SHELL_SCRIPTS.has(src.split('/').pop())) {
+        console.log('[Router] shell 스킵:', src);
+        continue;
+      }
 
       // Skip guard scripts
       const inlineText = script.textContent.trim();

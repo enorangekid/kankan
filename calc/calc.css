@@ -5,13 +5,13 @@
 /* 계산기 페이지 전용 */
 body { background: var(--color-bg); }
 
-/* ─── 페이지 헤더 ─── */
-.page-header {
+/* ─── 페이지 헤더 (계산기 전용) ─── */
+.main-content:has(.calc-wrapper) .page-header {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-end;
-  padding: 32px 48px 24px;
+  padding: 60px 48px 8px;
   width: 100%;
   gap: 6px;
   background: transparent;
@@ -41,7 +41,7 @@ body { background: var(--color-bg); }
 .breadcrumb a:hover { color: var(--color-text); }
 
 .bc-sep {
-  color: var(--color-border);
+  color: var(--color-text-muted);
 }
 
 .bc-current {
@@ -51,7 +51,7 @@ body { background: var(--color-bg); }
 
 /* ─── 계산기 래퍼 ─── */
 .calc-wrapper {
-  padding: 32px 48px 56px;
+  padding: 16px 48px 56px;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -658,7 +658,7 @@ select.field-input {
    ═══════════════════════════════════════════ */
 
 /* 전체 너비 레이아웃 — 사이드바 컬럼 제거 */
-.layout { grid-template-columns: 1fr; }
+.layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
 .main-content {
   grid-column: 1;
   overflow-x: visible;
@@ -686,10 +686,11 @@ select.field-input {
   margin-right: max(48px, calc((100vw - 1400px) / 2 + 48px));
 }
 
+
 /* ─── 주입된 카테고리바: 홈과 동일 ─── */
 .category-tabs {
   background: #05070b;
-  border-top: 1px solid rgba(232,93,47,0.35);
+  border-top: none;
   border-bottom: none;
   max-width: none;
   width: 100%;
@@ -745,15 +746,15 @@ select.field-input {
 
 /* 중간 화면: 2컬럼 → 패딩 축소 */
 @media (max-width: 1100px) {
-  .calc-wrapper { padding: 24px 32px 48px; }
+  .calc-wrapper { padding: 12px 32px 48px; }
 }
 
 
 @media (max-width: 640px) {
-  .page-header { padding: 20px 20px 24px; }
+  .main-content:has(.calc-wrapper) .page-header { padding: 48px 20px 8px; }
   .page-title { font-size: 20px; }
   .breadcrumb { font-size: 12px; }
-  .calc-wrapper { padding: 16px 16px 40px; }
+  .calc-wrapper { padding: 12px 16px 40px; }
   .calc-main-wrap .calc-card-main { background: transparent; border: none; border-radius: 0; }
   .calc-card-main { padding: 24px 0 20px !important; gap: 20px; background: transparent; border: none; border-radius: 0; }
   .field-row { grid-template-columns: 1fr 16px 1fr; gap: 8px; }
