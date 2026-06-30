@@ -188,10 +188,8 @@
   width: 100%;
   border-collapse: collapse;
   margin: 28px 0;
-  font-size: 13px;
-  overflow-x: auto;
-  display: block;
-  white-space: nowrap;
+  font-size: 11px;
+  table-layout: fixed;
 }
 .blog-post-body table thead {
   background: var(--color-surface, #f8f9fb);
@@ -199,19 +197,25 @@
 .blog-post-body table th,
 .blog-post-body table td {
   border: 1px solid var(--color-border);
-  padding: 10px 12px;
+  padding: 6px 4px;
   text-align: center;
   vertical-align: top;
-  white-space: normal;
-  min-width: 110px;
+  word-break: keep-all;
+  line-height: 1.4;
 }
 .blog-post-body table th {
   font-weight: 700;
-  font-size: 12px;
+  font-size: 10.5px;
 }
 .blog-post-body table td {
-  font-size: 12.5px;
-  line-height: 1.6;
+  font-size: 10.5px;
+}
+@media (max-width: 640px) {
+  .blog-post-body table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }
 
 /* 팁박스 */
