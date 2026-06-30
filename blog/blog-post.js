@@ -74,6 +74,25 @@ function parseBody(md) {
 
     if (/^\[(오프닝|문단\d+|아웃트로)\]$/.test(line.trim())) { i++; continue; }
 
+    const bannerMatch = line.match(/^\[link-banner:([^\]]+)\](.+)/);
+    if (bannerMatch) {
+      const href  = bannerMatch[1].trim();
+      const parts = bannerMatch[2].split('|');
+      const title = parts[0].trim();
+      const desc  = parts[1] ? parts[1].trim() : '';
+      html.push(`<a class="blog-link-banner" href="${href}">
+  <div class="blog-link-banner-inner">
+    <svg class="blog-link-banner-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    <div class="blog-link-banner-text">
+      <span class="blog-link-banner-title">${title}</span>
+      ${desc ? `<span class="blog-link-banner-desc">${desc}</span>` : ''}
+    </div>
+  </div>
+  <svg class="blog-link-banner-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+</a>`);
+      i++; continue;
+    }
+
     const imgMatch = line.match(/^\[image:(4:3|16:9)\](.+)/);
     if (imgMatch) {
       const ratio    = imgMatch[1].replace(':', '-');
@@ -129,7 +148,7 @@ function parseBody(md) {
       while (n < lines.length && lines[n].trim() === '') n++;
       const prev = p >= 0 ? lines[p].trim() : '';
       const next = n < lines.length ? lines[n].trim() : '';
-      const blockRe = /^\[(오프닝|문단\d+|아웃트로)\]$|^\[image:|^##\s|^###\s|^[-*]\s|^\d+\.\s|^>/;
+      const blockRe = /^\[(오프닝|문단\d+|아웃트로)\]$|^\[image:|^\[link-banner:|^##\s|^###\s|^[-*]\s|^\d+\.\s|^>/;
       if (!blockRe.test(prev) && !blockRe.test(next)) html.push('<br>');
       i++; continue;
     }
