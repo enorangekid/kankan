@@ -183,35 +183,52 @@
   margin-bottom: 0;
 }
 
-/* 본문 테이블 */
-.blog-post-body table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 28px 0;
-  font-size: 13px;
+/* ─── 본문 테이블 (calc.css의 seo-table 스타일 차용) ─── */
+.blog-post-body .seo-table-wrap {
   overflow-x: auto;
-  display: block;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  margin: 28px 0;
+}
+.blog-post-body .seo-table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.blog-post-body .seo-table th {
+  background: #edf1f7;
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
   white-space: nowrap;
 }
-.blog-post-body table thead {
-  background: var(--color-surface, #f8f9fb);
+.blog-post-body .seo-table th:last-child {
+  border-right: none;
 }
-.blog-post-body table th,
-.blog-post-body table td {
-  border: 1px solid var(--color-border);
-  padding: 10px 12px;
-  text-align: center;
-  vertical-align: top;
-  white-space: normal;
-  min-width: 110px;
+.blog-post-body .seo-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  word-break: keep-all;
+  color: var(--color-text);
+  font-family: var(--font-main);
+  font-size: 14px;
+  vertical-align: middle;
 }
-.blog-post-body table th {
-  font-weight: 700;
-  font-size: 12px;
+.blog-post-body .seo-table td:last-child {
+  border-right: none;
 }
-.blog-post-body table td {
-  font-size: 12.5px;
-  line-height: 1.6;
+.blog-post-body .seo-table tbody tr:hover {
+  background: #f1f5fb;
+}
+.blog-post-body .seo-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 /* 팁박스 */
