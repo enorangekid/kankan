@@ -59,7 +59,7 @@ const BLOG_POSTS = window.BLOG_POSTS = [
     excerpt: '미네랄울, 비드법, 압출법, 경질우레탄, PF보드까지 — 현장에서 자주 쓰이는 단열재 8종의 특성과 적용 부위를 한눈에 정리했습니다. 종류가 많아 헷갈릴 때 기준이 되는 비교 가이드입니다.',
     date: '2026.06.30',
     readTime: '10분',
-    thumb: null,
+    thumb: 'blog/posts/images/insulation-types-guide_main.jpg',
   },
   {
     id: 'insulation-thickness-guide',
