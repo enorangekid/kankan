@@ -235,16 +235,17 @@
 .blog-tip-box {
   background: transparent;
   border: none;
-  border-left: 3px solid #e85d2f;
+  border-left: 2px solid #e85d2f;
   border-radius: 0;
-  padding: 4px 0 4px 14px;
-  margin: 18px 0;
-  font-size: 13.5px;
-  line-height: 1.7;
+  padding: 2px 0 2px 10px;
+  margin: 14px 0;
+  font-size: 12px;
+  line-height: 1.6;
   color: var(--color-text-muted);
 }
 .blog-tip-box strong {
   color: #e85d2f;
+  font-weight: 700;
 }
 
 /* ── FAQ ── */
