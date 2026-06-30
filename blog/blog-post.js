@@ -159,7 +159,7 @@ function renderAuthor(authorKey, date, readTime) {
 
   if (author) {
     const avatarHtml = author.avatar
-      ? `<img src="blog/${author.avatar}" alt="${author.name}" />`
+      ? `<img src="${author.avatar}" alt="${author.name}" />`
       : `<span class="blog-author-initial">${author.name.charAt(0)}</span>`;
 
     const rowEl = document.getElementById('postAuthorRow');
