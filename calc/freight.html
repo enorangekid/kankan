@@ -383,15 +383,14 @@
               <div class="field-group">
                 <label class="field-label">배송지</label>
                 <div class="addr-input-row">
-                  <input type="text" class="addr-input-readonly" id="destAddrInput" placeholder="지역 선택" readonly onclick="toggleAddrSearch()" />
+                  <input type="text" class="addr-input-readonly" id="destAddrInput" placeholder="지역 선택" readonly />
                   <button class="btn-addr-clear" id="addrClearBtn" type="button" onclick="clearAddr()" style="display:none;">✕</button>
                 </div>
                 <div class="addr-search-box" id="addrSearchBox">
                   <div class="addr-search-inner">
                     <input type="text" class="addr-keyword-input" id="addrKeywordInput"
-                      placeholder="예) 서울 강남구 / 경기 수원시"
-                      onkeydown="if(event.key==='Enter') confirmAddr()" />
-                    <button class="btn-addr-confirm" type="button" onclick="confirmAddr()">확인</button>
+                      placeholder="예) 서울 강남구 / 경기 수원시" />
+                    <button class="btn-addr-confirm" id="addrConfirmBtn" type="button">확인</button>
                   </div>
                   <div class="addr-result-list" id="addrResultList">
                     <div class="addr-empty">시·도 + 시·군·구 형식으로 입력 후 확인을 누르세요</div>
@@ -420,7 +419,7 @@
 
             <!-- 버튼 -->
             <div class="btn-row">
-              <button class="btn-calc" id="btnCalc" type="button" onclick="calculate()">계산하기</button>
+              <button class="btn-calc" id="btnCalc" type="button">계산하기</button>
               <button class="btn-reset" id="btnReset" type="button" onclick="resetAll()">초기화</button>
             </div>
 

@@ -37,9 +37,10 @@ function postCardHTML(post) {
         <div class="blog-card-thumb ${hasThumb ? '' : 'blog-card-thumb--placeholder'}"
              style="${hasThumb ? '' : `background:${color}0d`}">
           ${thumbHTML}
-          <span class="blog-card-tag-badge">${post.tag}</span>
+          <span class="blog-card-tag-badge"${post.thumbBadgeColor ? ` style="background:${post.thumbBadgeColor}"` : ''}>${post.thumbBadge || post.tag}</span>
         </div>
         <div class="blog-card-body">
+          ${post.badge ? `<span class="blog-card-body-badge"${post.thumbBadgeColor ? ` style="background:${post.thumbBadgeColor}1a;color:${post.thumbBadgeColor}"` : ''}>${post.badge}</span>` : ''}
           <h2 class="blog-card-title">${post.title}</h2>
           <p class="blog-card-excerpt">${post.excerpt}</p>
           <div class="blog-card-meta">

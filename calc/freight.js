@@ -2,6 +2,7 @@
    칸칸 — 단열재 적재·운임 계산기 (freight.js)
    ───────────────────────────────────────── */
 
+console.log('freight.js 로드됨');
 'use strict';
 
 // ── 데이터 ──
@@ -506,7 +507,8 @@ function toggleRateTable() {
 
 // ── 히스토리 ──
 function addHistory(vehicleName, totalBundles, detailText, volume, thickness) {
-  const list  = document.getElementById('historyList');
+  const list = document.getElementById('historyList');
+  if (!list) return;
   const empty = list.querySelector('.history-empty');
   if (empty) empty.remove();
   list.querySelectorAll('.history-item').forEach(el => el.classList.remove('active'));

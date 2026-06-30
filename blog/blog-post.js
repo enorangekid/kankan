@@ -81,7 +81,7 @@ function parseBody(md) {
         && !nextLine.startsWith('>') && !nextLine.match(/^[-*\d]/) && nextLine.trim() !== '';
       const caption = hasCaption ? lines[++i].trim() : '';
       html.push(`<div class="blog-post-img-wrap blog-post-img--${ratio}">
-  <img src="images/${src}" alt="${caption}" loading="lazy"/>
+  <img src="blog/posts/images/${src}" alt="${caption}" loading="lazy"/>
   ${caption ? `<p class="blog-post-img-caption">${caption}</p>` : ''}
 </div>`);
       i++; continue;
@@ -120,7 +120,17 @@ function parseBody(md) {
       html.push('</ol>'); continue;
     }
 
-    if (line.trim() === '') { i++; continue; }
+    if (line.trim() === '') {
+      let p = i - 1;
+      while (p >= 0 && lines[p].trim() === '') p--;
+      let n = i + 1;
+      while (n < lines.length && lines[n].trim() === '') n++;
+      const prev = p >= 0 ? lines[p].trim() : '';
+      const next = n < lines.length ? lines[n].trim() : '';
+      const blockRe = /^\[(오프닝|문단\d+|아웃트로)\]$|^\[image:|^##\s|^###\s|^[-*]\s|^\d+\.\s|^>/;
+      if (!blockRe.test(prev) && !blockRe.test(next)) html.push('<br>');
+      i++; continue;
+    }
     html.push(`<p>${inline(line)}</p>`);
     i++;
   }
@@ -130,6 +140,7 @@ function parseBody(md) {
 
 function inline(text) {
   return text
+    .replace(/<br\s*\/?>/gi, '')
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/`(.+?)`/g, '<code>$1</code>')
@@ -199,13 +210,14 @@ function renderFaq(faqList) {
       </button>
       <div class="blog-faq-a" id="faq-a-${i}">${item.a}</div>
     </div>`).join('');
-  return `<div class="blog-faq-wrap"><div class="blog-faq-title">자주 묻는 질문</div>${items}</div>`;
+  return `<div class="blog-faq-wrap"><div class="blog-faq-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>자주 묻는 질문</div>${items}</div>`;
 }
 
 // ── 도움됐어요 / 공유하기 ──
 function renderActions() {
   return `
     <div class="blog-post-actions">
+      <p class="blog-post-actions-label">이 글이 도움이 됐다면 알려주세요.</p>
       <button class="blog-action-btn" id="btnHelpful" type="button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
         도움됐어요
@@ -271,7 +283,7 @@ async function initBlogPost() {
 
   let mdText = null;
   try {
-    const res = await fetch(`blog/posts/${id}.md`);
+    const res = await fetch(`blog/posts/${id}.md`, { cache: 'no-cache' });
     if (res.ok) mdText = await res.text();
   } catch(e) { console.warn('md fetch 실패:', e); }
 
@@ -300,7 +312,19 @@ async function initBlogPost() {
   const pg = document.getElementById('postTag');
   if (bc) bc.textContent = title;
   if (pt) pt.textContent = title;
-  if (pg) { pg.textContent = tag; pg.style.cssText = `background:${color}1a;color:${color};border:1px solid ${color}44`; }
+  const thumbLabel = metaData?.thumbBadge || tag;
+  const thumbColor = metaData?.thumbBadgeColor || color;
+  if (pg) { pg.textContent = thumbLabel; pg.style.cssText = `background:${thumbColor}1a;color:${thumbColor};border:1px solid ${thumbColor}44`; }
+
+  const badge = metaData?.badge || meta.badge || '';
+  const pbEl = document.getElementById('postBadge');
+  if (pbEl && badge) {
+    pbEl.textContent = badge;
+    pbEl.style.display = 'block';
+    const summaryEl2 = document.getElementById('postSummary');
+    if (summaryEl2) summaryEl2.style.display = '';
+  }
+
   document.title = `${title} — 칸칸`;
 
   // 에디터 + 날짜
@@ -371,19 +395,11 @@ async function initBlogPost() {
   // 태그
   const tags   = Array.isArray(meta.tags) ? meta.tags : (tag ? [tag] : []);
   const tagsEl = document.getElementById('postTags');
-  if (tagsEl) tagsEl.innerHTML = tags.map(t => `<a href="../blog.html" class="blog-post-tag-item">#${t}</a>`).join('');
-
-  // 관련 계산기
-  const calcs    = Array.isArray(meta.relatedCalcs) ? meta.relatedCalcs : [];
-  const calcsEl  = document.getElementById('relatedCalcs');
-  const calcsTag = document.getElementById('relatedCalcTags');
-  if (calcs.length && calcsEl && calcsTag) {
-    calcsEl.style.display = '';
-    calcsTag.innerHTML = calcs.map(c => {
-      const [name, url] = c.split(' > ');
-      return `<a href="../${url || 'calc/insulation-board.html'}" class="blog-related-calc-tag">${name.trim()}</a>`;
-    }).join('');
+  if (tagsEl) {
+    const tagIcon = `<span class="blog-post-tags-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>`;
+    tagsEl.innerHTML = tagIcon + tags.map(t => `<a href="../blog.html" class="blog-post-tag-item">#${t}</a>`).join('');
   }
+
 
   // 관련 포스트
   renderRelatedPosts(id, tag);
