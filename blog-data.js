@@ -77,7 +77,7 @@ const BLOG_POSTS = window.BLOG_POSTS = [
     id: 'detached-house-insulation-guide',
     author: 'energuard',
     tag: '단열재',
-    thumbBadge: '내단열 vs 외단열',
+    thumbBadge: '단열재',
     badge: '신축·리모델링 단열 선택 가이드',
     title: '단독주택 단열, 처음 설계부터 방향을 잡아야 합니다',
     excerpt: '단열은 한 번 시공하면 나중에 바꾸기 매우 어렵습니다. 신축 단독주택이라면 내단열과 외단열 중 어느 쪽을 선택하느냐가 집의 쾌적함을 평생 좌우합니다. 결로와 열교, 비용까지 고려한 선택 기준을 정리했습니다.',
