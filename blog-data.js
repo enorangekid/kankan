@@ -33,7 +33,7 @@ const BLOG_POSTS = window.BLOG_POSTS = [
     excerpt: '화재 안전 등급이 왜 중요한지, 불연·준불연·난연은 어떻게 다른지 — 최근 대형 화재 사례와 건축법 기준까지 함께 정리했습니다.',
     date: '2026.06.30',
     readTime: '6분',
-    thumb: null,
+    thumb: 'blog/posts/images/fire-safety-insulation-guide_main.jpg',
   },
   {
     id: 'neopor-delivery-story',
