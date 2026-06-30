@@ -247,7 +247,7 @@ function renderRelatedPosts(currentId, currentTag) {
       : `<span class="blog-thumb-icon" style="color:${color}99">${icon}</span>`;
     return `
       <article class="blog-card">
-        <a class="blog-card-link" href="post.html?id=${p.id}">
+        <a class="blog-card-link" href="blog/post.html?id=${p.id}">
           <div class="blog-card-thumb ${p.thumb ? '' : 'blog-card-thumb--placeholder'}"
                style="${p.thumb ? '' : `background:${color}0d`}">
             ${thumbHTML}
