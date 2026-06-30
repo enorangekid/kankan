@@ -334,7 +334,7 @@ async function initBlogPost() {
   const heroEl = document.getElementById('postHeroImage');
   if (heroEl) {
     if (thumb) {
-      heroEl.innerHTML = `<img src="blog/posts/${thumb}" alt="${title}" loading="lazy"/>`;
+      heroEl.innerHTML = `<img src="posts/${thumb}" alt="${title}" loading="lazy"/>`;
       heroEl.style.display = '';
     } else {
       heroEl.style.display = 'none';
