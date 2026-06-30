@@ -196,6 +196,8 @@
   margin: 0;
   font-size: 12.5px;
   table-layout: fixed;
+  width: 100%;
+  min-width: 835px;
 }
 .blog-post-body table thead th {
   background: #edf1f7;
