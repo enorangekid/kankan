@@ -24,6 +24,18 @@ const AUTHORS = window.AUTHORS = {
 
 const BLOG_POSTS = window.BLOG_POSTS = [
   {
+    id: 'fire-safety-insulation-guide',
+    author: 'energuard',
+    tag: '단열재',
+    thumbBadge: '단열재',
+    badge: '불연·준불연·난연 단열재 가이드',
+    title: '불연·준불연·난연 차이, 불에 안타는 단열재는 무엇?',
+    excerpt: '화재 안전 등급이 왜 중요한지, 불연·준불연·난연은 어떻게 다른지 — 최근 대형 화재 사례와 건축법 기준까지 함께 정리했습니다.',
+    date: '2026.06.30',
+    readTime: '6분',
+    thumb: null,
+  },
+  {
     id: 'neopor-delivery-story',
     author: 'masterlee',
     tag: '단열재',
