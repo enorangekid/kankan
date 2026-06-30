@@ -159,7 +159,7 @@ function renderAuthor(authorKey, date, readTime) {
 
   if (author) {
     const avatarHtml = author.avatar
-      ? `<img src="../${author.avatar}" alt="${author.name}" />`
+      ? `<img src="blog/${author.avatar}" alt="${author.name}" />`
       : `<span class="blog-author-initial">${author.name.charAt(0)}</span>`;
 
     const rowEl = document.getElementById('postAuthorRow');
@@ -243,7 +243,7 @@ function renderRelatedPosts(currentId, currentTag) {
     const color = TAG_COLOR[p.tag] || '#888';
     const icon  = THUMB_ICONS[p.tag] || '';
     const thumbHTML = p.thumb
-      ? `<img src="../${p.thumb}" alt="${p.title}" loading="lazy"/>`
+      ? `<img src="${p.thumb}" alt="${p.title}" loading="lazy"/>`
       : `<span class="blog-thumb-icon" style="color:${color}99">${icon}</span>`;
     return `
       <article class="blog-card">
