@@ -3,6 +3,8 @@
    블로그 목록 렌더링 + 태그 필터
    ───────────────────────────────────────── */
 
+const BASE = '/kankan';
+
 const TAG_COLOR = {
   '단열재':       '#3b7dd8',
   '석고보드':     '#7c5cbf',
@@ -28,12 +30,12 @@ function postCardHTML(post) {
   const hasThumb = !!post.thumb;
 
   const thumbHTML = hasThumb
-    ? `<img src="${post.thumb}" alt="${post.title}" loading="lazy" />`
+    ? `<img src="${BASE}/${post.thumb}" alt="${post.title}" loading="lazy" />`
     : `<span class="blog-thumb-icon" style="color:${color}99">${THUMB_ICONS[post.tag] || defaultIcon()}</span>`;
 
   return `
     <article class="blog-card">
-      <a class="blog-card-link" href="blog/post.html?id=${post.id}">
+      <a class="blog-card-link" href="${BASE}/blog/post.html?id=${post.id}">
         <div class="blog-card-thumb ${hasThumb ? '' : 'blog-card-thumb--placeholder'}"
              style="${hasThumb ? '' : `background:${color}0d`}">
           ${thumbHTML}

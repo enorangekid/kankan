@@ -5,6 +5,8 @@
 
 'use strict';
 
+const BASE = '/kankan';
+
 const TAG_COLOR = {
   '단열재':       '#3b7dd8',
   '석고보드':     '#7c5cbf',
@@ -81,7 +83,7 @@ function parseBody(md) {
         && !nextLine.startsWith('>') && !nextLine.match(/^[-*\d]/) && nextLine.trim() !== '';
       const caption = hasCaption ? lines[++i].trim() : '';
       html.push(`<div class="blog-post-img-wrap blog-post-img--${ratio}">
-  <img src="blog/posts/images/${src}" alt="${caption}" loading="lazy"/>
+  <img src="${BASE}/blog/posts/images/${src}" alt="${caption}" loading="lazy"/>
   ${caption ? `<p class="blog-post-img-caption">${caption}</p>` : ''}
 </div>`);
       i++; continue;
@@ -159,7 +161,7 @@ function renderAuthor(authorKey, date, readTime) {
 
   if (author) {
     const avatarHtml = author.avatar
-      ? `<img src="${author.avatar}" alt="${author.name}" />`
+      ? `<img src="${BASE}/${author.avatar}" alt="${author.name}" />`
       : `<span class="blog-author-initial">${author.name.charAt(0)}</span>`;
 
     const rowEl = document.getElementById('postAuthorRow');
@@ -243,11 +245,11 @@ function renderRelatedPosts(currentId, currentTag) {
     const color = TAG_COLOR[p.tag] || '#888';
     const icon  = THUMB_ICONS[p.tag] || '';
     const thumbHTML = p.thumb
-      ? `<img src="${p.thumb}" alt="${p.title}" loading="lazy"/>`
+      ? `<img src="${BASE}/${p.thumb}" alt="${p.title}" loading="lazy"/>`
       : `<span class="blog-thumb-icon" style="color:${color}99">${icon}</span>`;
     return `
       <article class="blog-card">
-        <a class="blog-card-link" href="blog/post.html?id=${p.id}">
+        <a class="blog-card-link" href="${BASE}/blog/post.html?id=${p.id}">
           <div class="blog-card-thumb ${p.thumb ? '' : 'blog-card-thumb--placeholder'}"
                style="${p.thumb ? '' : `background:${color}0d`}">
             ${thumbHTML}
@@ -283,7 +285,7 @@ async function initBlogPost() {
 
   let mdText = null;
   try {
-    const res = await fetch(`blog/posts/${id}.md`, { cache: 'no-cache' });
+    const res = await fetch(`${BASE}/blog/posts/${id}.md`, { cache: 'no-cache' });
     if (res.ok) mdText = await res.text();
   } catch(e) { console.warn('md fetch 실패:', e); }
 
@@ -334,7 +336,7 @@ async function initBlogPost() {
   const heroEl = document.getElementById('postHeroImage');
   if (heroEl) {
     if (thumb) {
-      heroEl.innerHTML = `<img src="blog/posts/${thumb}" alt="${title}" loading="lazy"/>`;
+      heroEl.innerHTML = `<img src="${BASE}/blog/posts/${thumb}" alt="${title}" loading="lazy"/>`;
       heroEl.style.display = '';
     } else {
       heroEl.style.display = 'none';
@@ -397,7 +399,7 @@ async function initBlogPost() {
   const tagsEl = document.getElementById('postTags');
   if (tagsEl) {
     const tagIcon = `<span class="blog-post-tags-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>`;
-    tagsEl.innerHTML = tagIcon + tags.map(t => `<a href="../blog.html" class="blog-post-tag-item">#${t}</a>`).join('');
+    tagsEl.innerHTML = tagIcon + tags.map(t => `<a href="${BASE}/blog.html" class="blog-post-tag-item">#${t}</a>`).join('');
   }
 
 
