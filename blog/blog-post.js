@@ -141,6 +141,24 @@ function parseBody(md) {
       html.push('</ol>'); continue;
     }
 
+    // Raw HTML block passthrough: <div ...> 또는 <table ...> 시작 시 닫는 태그까지 통째로 출력
+    if (/^<(div|table)[\s>]/.test(line)) {
+      const rawLines = [];
+      let depth = 0;
+      const openRe = /<(div|table)[\s>]/g;
+      const closeRe = /<\/(div|table)>/g;
+      while (i < lines.length) {
+        const l = lines[i];
+        depth += (l.match(openRe) || []).length;
+        depth -= (l.match(closeRe) || []).length;
+        rawLines.push(l);
+        i++;
+        if (depth <= 0) break;
+      }
+      html.push(rawLines.join('\n'));
+      continue;
+    }
+
     if (line.trim() === '') {
       let p = i - 1;
       while (p >= 0 && lines[p].trim() === '') p--;
@@ -148,7 +166,7 @@ function parseBody(md) {
       while (n < lines.length && lines[n].trim() === '') n++;
       const prev = p >= 0 ? lines[p].trim() : '';
       const next = n < lines.length ? lines[n].trim() : '';
-      const blockRe = /^\[(오프닝|문단\d+|아웃트로)\]$|^\[image:|^\[link-banner:|^##\s|^###\s|^[-*]\s|^\d+\.\s|^>/;
+      const blockRe = /^\[(오프닝|문단\d+|아웃트로)\]$|^\[image:|^\[link-banner:|^##\s|^###\s|^[-*]\s|^\d+\.\s|^>|^<(div|table)[\s>]/;
       if (!blockRe.test(prev) && !blockRe.test(next)) html.push('<br>');
       i++; continue;
     }
