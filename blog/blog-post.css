@@ -184,54 +184,34 @@
 }
 
 /* 본문 테이블 */
-.blog-post-body div[style*="overflow-x"] {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius, 6px);
-  margin: 28px 0;
-  overflow: hidden;
-  overflow-x: auto;
-}
 .blog-post-body table {
-  border-collapse: collapse;
-  margin: 0;
-  font-size: 12.5px;
-  table-layout: fixed;
   width: 100%;
-  min-width: 835px;
+  border-collapse: collapse;
+  margin: 28px 0;
+  font-size: 13px;
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
 }
-.blog-post-body table thead th {
-  background: #edf1f7;
-  color: var(--color-text-muted);
+.blog-post-body table thead {
+  background: var(--color-surface, #f8f9fb);
 }
 .blog-post-body table th,
 .blog-post-body table td {
-  border-bottom: 1px solid var(--color-border);
-  border-right: 1px solid var(--color-border);
-  padding: 8px 6px;
+  border: 1px solid var(--color-border);
+  padding: 10px 12px;
   text-align: center;
-  vertical-align: middle;
-  line-height: 1.6;
-  width: 95px;
-  word-break: keep-all;
-}
-.blog-post-body table th:first-child,
-.blog-post-body table td:first-child {
-  width: 75px;
-  font-weight: 700;
-}
-.blog-post-body table th:last-child,
-.blog-post-body table td:last-child {
-  border-right: none;
-}
-.blog-post-body table tbody tr:last-child td {
-  border-bottom: none;
+  vertical-align: top;
+  white-space: normal;
+  min-width: 110px;
 }
 .blog-post-body table th {
   font-weight: 700;
-  font-size: 11.5px;
+  font-size: 12px;
 }
-.blog-post-body table tbody tr:hover {
-  background: #f1f5fb;
+.blog-post-body table td {
+  font-size: 12.5px;
+  line-height: 1.6;
 }
 
 /* 팁박스 */
