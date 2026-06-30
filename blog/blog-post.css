@@ -183,6 +183,37 @@
   margin-bottom: 0;
 }
 
+/* 본문 테이블 */
+.blog-post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 28px 0;
+  font-size: 13px;
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
+}
+.blog-post-body table thead {
+  background: var(--color-surface, #f8f9fb);
+}
+.blog-post-body table th,
+.blog-post-body table td {
+  border: 1px solid var(--color-border);
+  padding: 10px 12px;
+  text-align: center;
+  vertical-align: top;
+  white-space: normal;
+  min-width: 110px;
+}
+.blog-post-body table th {
+  font-weight: 700;
+  font-size: 12px;
+}
+.blog-post-body table td {
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
 /* 팁박스 */
 .blog-tip-box {
   background: var(--color-surface, #f8f9fb);
